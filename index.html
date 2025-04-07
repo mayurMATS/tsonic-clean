@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TSonic  - Bluetooth Eyeglasses</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="./src/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" src="./src/main.ts" defer></script>
+  <style>
+    :root {
+      --heading-font: 'Space Grotesk', sans-serif;
+      --body-font: 'Plus Jakarta Sans', sans-serif;
+      --logo-font: 'Outfit', sans-serif;
+      --primary-color: #00ffb3;
+      --secondary-color: #6C63FF;
+      --accent-color: #FF6B6B;
+      --dark-bg: #1E1B2E;
+      --darker-bg: #13111D;
+      --light-bg: #1A1E2D;
+      --lighter-bg: #242838;
+      --light-text: #ffffff;
+      --dark-text: #E0E0FF;
+      --muted-text: rgba(255, 255, 255, 0.85);
+      --muted-dark-text: rgba(224, 224, 255, 0.85);
+    }
+
+    body {
+      font-family: var(--body-font);
+      letter-spacing: -0.02em;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--heading-font);
+      letter-spacing: -0.03em;
+    }
+
+    .logo h1 {
+      font-family: var(--logo-font);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .nav-link {
+      font-family: var(--body-font);
+      font-weight: 500;
+    }
+
+    .hero-content h1 {
+      font-size: 4rem;
+      line-height: 1.1;
+      font-weight: 700;
+    }
+
+    .hero-content h2 {
+      font-family: var(--body-font);
+      font-size: 1.8rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    .section-header h2 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .section-header p {
+      font-family: var(--body-font);
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .feature-card h3 {
+      font-family: var(--heading-font);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-card p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .spec-item h4 {
+      font-family: var(--heading-font);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .testimonial-text {
+      font-family: var(--body-font);
+      font-size: 1.2rem;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .cta-content h2 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .price-tag .current-price {
+      font-family: var(--heading-font);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .btn {
+      font-family: var(--body-font);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    
+    .nav-link:hover {
+      background-color: rgba(0, 255, 179, 0.1);
+    }
+    
+    .nav-link.cta-small:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 255, 179, 0.3);
+    }
+
+    /* Updated section styles */
+    .navbar {
+      background: linear-gradient(to right, var(--darker-bg), var(--dark-bg));
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+      position: relative;
+      overflow: hidden;
+      color: var(--light-text);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(0, 255, 179, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .overview {
+      background: linear-gradient(135deg, var(--light-bg) 0%, var(--lighter-bg) 100%);
+      position: relative;
+      color: var(--light-text);
+    }
+
+    .overview::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 70% 30%, rgba(108, 99, 255, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .overview .section-header h2 {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .overview .section-header p {
+      color: var(--muted-text);
+    }
+
+    .overview-feature {
+      background: rgba(19, 17, 29, 0.5);
+      border: 1px solid rgba(0, 255, 179, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .overview-feature:hover {
+      background: rgba(19, 17, 29, 0.7);
+      border: 1px solid rgba(0, 255, 179, 0.3);
+    }
+
+    .overview-feature p {
+      color: var(--muted-text);
+    }
+
+    .features {
+      background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+      position: relative;
+      padding: 4rem 0;
+      color: var(--light-text);
+    }
+
+    .specs {
+      background: linear-gradient(135deg, var(--light-bg) 0%, var(--lighter-bg) 100%);
+      position: relative;
+      color: var(--light-text);
+    }
+
+    .specs .section-header h2 {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .specs .section-header p {
+      color: var(--muted-text);
+    }
+
+    .spec-item {
+      background: rgba(19, 17, 29, 0.5);
+      border: 1px solid rgba(0, 255, 179, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .spec-item:hover {
+      background: rgba(19, 17, 29, 0.7);
+      border: 1px solid rgba(0, 255, 179, 0.3);
+    }
+
+    .spec-item h4 {
+      color: var(--light-text);
+    }
+
+    .spec-item p {
+      color: var(--muted-text);
+    }
+
+    .testimonials {
+      background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+      position: relative;
+      color: var(--light-text);
+    }
+
+    .testimonial-card {
+      background: rgba(19, 17, 29, 0.5);
+      border: 1px solid rgba(0, 255, 179, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .cta {
+      background: linear-gradient(135deg, var(--light-bg) 0%, var(--lighter-bg) 100%);
+      position: relative;
+      color: var(--light-text);
+    }
+
+    .cta::before {
+      background: radial-gradient(circle at 70% 30%, rgba(0, 255, 179, 0.15) 0%, transparent 70%);
+    }
+
+    .cta .section-header h2 {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cta p {
+      color: var(--muted-text);
+    }
+
+    footer {
+      background: linear-gradient(to right, var(--darker-bg), var(--dark-bg));
+      border-top: 1px solid rgba(0, 255, 179, 0.1);
+      color: var(--light-text);
+    }
+
+    /* Update text colors for all sections */
+    .overview h3,
+    .specs h3,
+    .cta h3 {
+      color: var(--light-text);
+    }
+
+    /* Update mobile styles */
+    @media (max-width: 768px) {
+      .overview-text::after {
+        background: linear-gradient(to bottom, transparent, var(--light-bg));
+      }
+
+      .specs-details::after {
+        background: linear-gradient(to bottom, transparent, var(--light-bg));
+      }
+    }
+
+    .nav-link.cta-small {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--darker-bg);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--darker-bg);
+      font-weight: 600;
+    }
+
+    /* Add these new styles after existing styles */
+    .overview-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      padding: 2rem 0;
+    }
+
+    .overview-image {
+      position: relative;
+    }
+
+    .overview-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .overview-text {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .overview-feature {
+      background: rgba(30, 27, 46, 0.6);
+      border: 1px solid rgba(0, 255, 179, 0.1);
+      padding: 1.8rem;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .overview-feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 255, 179, 0.15);
+      background: rgba(45, 42, 63, 0.4);
+      border: 1px solid rgba(0, 255, 179, 0.2);
+    }
+
+    .overview-feature i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #00ffb3, #6C63FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .overview-feature h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      color: var(--primary-color);
+    }
+
+    .overview-feature p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--muted-text);
+    }
+
+    @media (max-width: 992px) {
+      .overview-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .overview-image {
+        order: -1;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
+
+    /* Add these responsive styles after existing styles */
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background: rgba(19, 17, 29, 0.98);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(-100%);
+        z-index: 1000;
+        padding: 2rem;
+      }
+
+      .nav-menu.active {
+        transform: translateX(0);
+      }
+
+      .nav-link {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+        width: 100%;
+        text-align: center;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:active {
+        transform: scale(0.95);
+      }
+
+      .nav-toggle {
+        display: block;
+        width: 30px;
+        height: 20px;
+        position: relative;
+        z-index: 1001;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .nav-toggle span,
+      .nav-toggle span::before,
+      .nav-toggle span::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: var(--primary-color);
+        transition: all 0.3s ease;
+        left: 0;
+      }
+
+      .nav-toggle span {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .nav-toggle span::before {
+        top: -8px;
+      }
+
+      .nav-toggle span::after {
+        bottom: -8px;
+      }
+
+      .nav-toggle.active span {
+        background: transparent;
+      }
+
+      .nav-toggle.active span::before {
+        top: 0;
+        transform: rotate(45deg);
+      }
+
+      .nav-toggle.active span::after {
+        bottom: 0;
+        transform: rotate(-45deg);
+      }
+
+      /* Prevent body scroll when menu is open */
+      body.menu-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+      }
+
+      /* Overview Features Mobile Layout */
+      .overview-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .overview-text {
+        position: relative;
+        max-height: 130px;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+        margin-bottom: 2.5rem;
+      }
+
+      .overview-text.expanded {
+        max-height: 1000px;
+      }
+
+      .overview-text::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: linear-gradient(to bottom, transparent, var(--light-bg));
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .overview-text.expanded::after {
+        opacity: 0;
+      }
+
+      .overview-toggle-btn {
+        position: absolute;
+        bottom: -2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #00ffb3, #6C63FF);
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: var(--body-font);
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(0, 255, 179, 0.3);
+        z-index: 2;
+        transition: all 0.3s ease;
+      }
+
+      .overview-toggle-btn:hover {
+        transform: translateX(-50%) translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 255, 179, 0.4);
+      }
+
+      body {
+        font-size: 0.95rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+      }
+
+      .section-header h2 {
+        font-size: 2rem;
+      }
+
+      .section-header p {
+        font-size: 1rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.8rem;
+      }
+
+      .hero-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .hero-content p {
+        font-size: 1rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.2rem;
+      }
+
+      .feature-card p, 
+      .overview-feature p, 
+      .spec-item p, 
+      .testimonial-text {
+        font-size: 0.9rem;
+      }
+
+      .spec-item h4 {
+        font-size: 1rem;
+      }
+
+      .price, .price-tag {
+        font-size: 1.3rem;
+      }
+
+      .btn {
+        font-size: 0.9rem;
+        padding: 0.6rem 1.2rem;
+      }
+
+      .footer-content h2,
+      .footer-content h3 {
+        font-size: 1.2rem;
+      }
+
+      .footer-content p,
+      .footer-content a {
+        font-size: 0.9rem;
+      }
+
+      /* Add these styles for collapsible spec details */
+      .specs-details {
+        position: relative;
+        max-height: 110px;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+        margin-bottom: 2.5rem;
+      }
+
+      .specs-details.expanded {
+        max-height: 1000px;
+      }
+
+      .specs-details::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: linear-gradient(to bottom, transparent, var(--light-bg));
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .specs-details.expanded::after {
+        opacity: 0;
+      }
+
+      .specs-toggle-btn {
+        position: absolute;
+        bottom: -2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #00ffb3, #6C63FF);
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: var(--body-font);
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(0, 255, 179, 0.3);
+        z-index: 2;
+        transition: all 0.3s ease;
+      }
+
+      .specs-toggle-btn:hover {
+        transform: translateX(-50%) translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 255, 179, 0.4);
+      }
+
+      /* Add these styles for mobile-responsive features slider */
+      .features-slider {
+        padding: 1.5rem;
+        min-height: 260px;
+        display: block;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card {
+        max-width: 500px;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: none;
+        pointer-events: none;
+        visibility: hidden;
+      }
+
+      .feature-card.active {
+        position: relative;
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+        visibility: visible;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+      }
+
+      .feature-card.prev {
+        transform: translateX(-100%);
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .feature-card.next {
+        transform: translateX(100%);
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      /* Enhanced swipe animation */
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+          visibility: visible;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-100%);
+          opacity: 0;
+          visibility: visible;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+          visibility: visible;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      @keyframes slideOutLeft {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+          visibility: visible;
+        }
+        to {
+          transform: translateX(-100%);
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .feature-card.sliding-left {
+        animation: slideInLeft 0.5s ease forwards;
+        z-index: 2;
+      }
+
+      .feature-card.sliding-right {
+        animation: slideInRight 0.5s ease forwards;
+        z-index: 2;
+      }
+
+      .feature-card.sliding-out-left {
+        animation: slideOutLeft 0.5s ease forwards;
+        z-index: 1;
+      }
+
+      .feature-card.sliding-out-right {
+        animation: slideOutRight 0.5s ease forwards;
+        z-index: 1;
+      }
+
+      .feature-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 1.2rem;
+      }
+      
+      .feature-icon i {
+        font-size: 1.8rem;
+      }
+      
+      .feature-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .feature-card p {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .feature-nav {
+        margin-top: 2.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 0.8rem;
+      }
+
+      .feature-dot {
+        position: relative;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        margin: 0;
+        padding: 0;
+        background: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .feature-dot::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+      }
+      
+      .feature-dot.active {
+        width: 24px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      }
+
+      /* Add swipe indicator */
+      .swipe-indicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+        font-size: 0.8rem;
+        color: var(--muted-text);
+      }
+
+      .swipe-indicator i {
+        margin: 0 0.5rem;
+        animation: swipeAnim 1.5s infinite ease-in-out;
+      }
+
+      @keyframes swipeAnim {
+        0% { transform: translateX(-5px); opacity: 0.5; }
+        50% { transform: translateX(5px); opacity: 1; }
+        100% { transform: translateX(-5px); opacity: 0.5; }
+      }
+
+      /* Fix mobile sliders */
+      .feature-card,
+      .testimonial-card {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transform: translateX(0);
+        opacity: 1;
+      }
+      
+      .feature-card:not(.active),
+      .testimonial-card:not(.active) {
+        position: absolute;
+        opacity: 0;
+        transform: translateX(20px);
+        pointer-events: none;
+      }
+      
+      /* Adjust container heights for new content */
+      .specs-details {
+        max-height: 120px; /* Increased to account for additional spec item */
+      }
+      
+      /* Fix container positioning */
+      .features-slider,
+      .testimonials-slider {
+        position: relative;
+      }
+      
+      /* Fix feature and testimonial transition */
+      @keyframes fadeSlideIn {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      .feature-card.active,
+      .testimonial-card.active {
+        animation: fadeSlideIn 0.3s ease forwards;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .overview-text {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      .section-header h2 {
+        font-size: 1.8rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.4rem;
+      }
+
+      .cta-content h2 {
+        font-size: 1.8rem; 
+      }
+    }
+
+    /* Hide mobile-only elements on desktop */
+    .specs-toggle-btn, 
+    .overview-toggle-btn,
+    .swipe-indicator {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      /* Show mobile-only elements */
+      .specs-toggle-btn, 
+      .overview-toggle-btn,
+      .swipe-indicator {
+        display: flex;
+      }
+      
+      /* Mobile styles continue below */
+    }
+
+    /* Style for chat widget */
+    .chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+    
+    .chat-button {
+      background: linear-gradient(135deg, #00ffb3, #6C63FF);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-family: var(--body-font);
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0, 255, 179, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .chat-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 255, 179, 0.4);
+    }
+    
+    .chat-button i {
+      font-size: 1.2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .chat-widget {
+        bottom: 15px;
+        right: 15px;
+      }
+      
+      .chat-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Enhanced Features Slider styling */
+    .features-slider {
+      background: rgba(19, 17, 29, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 255, 179, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 1200px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+      -webkit-overflow-scrolling: touch; /* Add momentum scrolling */
+      touch-action: pan-x pan-y; /* Enable smooth touch handling */
+    }
+
+    /* Desktop View - Grid Layout */
+    @media (min-width: 769px) {
+      .features-slider {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        min-height: auto;
+        padding: 3rem 2rem;
+      }
+      
+      .features-slider .feature-card {
+        position: relative !important;
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .features-slider .feature-card:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 10px 30px rgba(0, 255, 179, 0.2);
+      }
+    }
+    
+    /* Mobile View - Carousel Layout */
+    @media (max-width: 768px) {
+      .features-slider {
+        display: block;
+        min-height: 300px;
+        padding: 2rem 1.5rem;
+      }
+      
+      .features-slider.mobile-view {
+        height: 100%;
+        position: relative;
+      }
+      
+      .features-slider .feature-card {
+        transition: transform 0.5s ease, opacity 0.5s ease;
+      }
+      
+      .features-slider .feature-card.sliding-left {
+        animation: slideInLeft 0.5s ease forwards;
+      }
+      
+      .features-slider .feature-card.sliding-right {
+        animation: slideInRight 0.5s ease forwards;
+      }
+      
+      .features-slider .feature-card.sliding-out-left {
+        animation: slideOutLeft 0.5s ease forwards;
+      }
+      
+      .features-slider .feature-card.sliding-out-right {
+        animation: slideOutRight 0.5s ease forwards;
+      }
+    }
+
+    .feature-card {
+      background: transparent;
+      padding: 1.5rem;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin: 0 auto;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 25px rgba(0, 255, 179, 0.3);
+      transform: translateY(0);
+      transition: all 0.4s ease;
+    }
+
+    .feature-icon i {
+      font-size: 2rem;
+      color: var(--darker-bg);
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: var(--light-text);
+    }
+
+    .feature-card p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--muted-text);
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    
+    /* Enhanced animation keyframes */
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideOutLeft {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const video = document.getElementById("tsonicVideo");
+      
+      // Mobile optimization - many mobile browsers won't autoplay
+      // even with muted attribute, so we need to explicitly play
+      if (video) {
+        video.load(); // Force load
+        
+        // Try to play once loaded
+        video.addEventListener("loadedmetadata", function() {
+          video.currentTime = 5; // Start at 5 seconds
+          
+          // Use setTimeout to allow the browser to update the UI
+          setTimeout(function() {
+            // Try to play and catch any errors (like autoplay restrictions)
+            var playPromise = video.play();
+            
+            if (playPromise !== undefined) {
+              playPromise.catch(function(error) {
+                console.log("Autoplay prevented:", error);
+                // Just show the video with poster image
+              });
+            }
+          }, 100);
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  <!-- Header/Navigation -->
+  <header>
+    <nav class="navbar">
+      <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="logo" style="flex: 0 0 auto;">
+          <h1 style="margin: 0;">TSonic</h1>
+        </div>
+        <ul class="nav-menu" id="navMenu" style="flex: 1; justify-content: right; margin: 0; gap: 2rem;">
+          <li><a href="#home" class="nav-link" style="padding: 0.5rem 1rem; transition: all 0.3s ease; border-radius: 4px; font-weight: 500;">Home</a></li>
+          <li><a href="#features" class="nav-link" style="padding: 0.5rem 1rem; transition: all 0.3s ease; border-radius: 4px; font-weight: 500;">Features</a></li>
+          <li><a href="#specs" class="nav-link" style="padding: 0.5rem 1rem; transition: all 0.3s ease; border-radius: 4px; font-weight: 500;">Specs</a></li>
+          <li><a href="#testimonials" class="nav-link" style="padding: 0.5rem 1rem; transition: all 0.3s ease; border-radius: 4px; font-weight: 500;">Reviews</a></li>
+          <li><a href="#order" class="nav-link cta-small" style="padding: 0.5rem 1.2rem; background-color: #00ffb3; color: #1E1B2E; border-radius: 6px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0, 255, 179, 0.2);">Order Now</a></li>
+        </ul>
+        <div class="nav-toggle" id="navToggle">
+          <span></span>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>TSonic v1.0</h1>
+        <h2>Bluetooth Eyewear with Clip-On</h2>
+        <p>Experience the blend of style, technology, and versatility</p>
+        <div class="hero-cta" style="display: flex; align-items: left; justify-content: left; gap: 2rem; ">
+          <a href="#order" class="btn btn-primary">Order Now</a>
+          <p class="price" style="text-align: center; margin: 0;">₹3699 <span class="original-price">₹5699</span></p>
+        </div>
+      </div>
+      <!-- <div class="hero-image">
+        <img src="./src/assets/videos/tsonic-demo.mp4" alt="TSonic Bluetooth Eyeglasses">
+      </div> -->
+      <video
+        class="hero-image"
+        id="tsonicVideo"
+        width="100%"
+        height="100%"
+        style="object-fit: cover; max-height: 500px;"
+        autoplay
+        muted
+        loop
+        playsinline
+        poster="./src/assets/images/hero-eyeglass.png"
+      >
+        <source src="./src/assets/videos/editedTSonic.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+    </div>
+  </section>
+
+  <!-- Overview Section -->
+  <section id="overview" class="overview">
+    <div class="container">
+      <div class="section-header">
+        <h2>The Future of Eyewear</h2>
+        <p>TSonic integrates seamlessly with Siri & Google Assistant, now enhanced with premium Polaroid sunglasses for a smarter, more stylish experience.</p>
+      </div>
+      <div class="overview-content">
+        <div class="overview-image">
+          <img src="./src/assets/images/product-overview.gif" alt="TSonic Product Overview">
+        </div>
+        <div class="overview-text-container" style="position: relative;">
+          <div class="overview-text">
+            <div class="overview-feature" data-aos="fade-up">
+              <div class="overview-feature-header">
+                <i class="fas fa-bluetooth"></i>
+                <h3>Seamless Connectivity</h3>
+              </div>
+              <div class="feature-content">
+                <p>Bluetooth 5.0 technology for crystal clear audio and stable connection</p>
+              </div>
+            </div>
+            <div class="overview-feature" data-aos="fade-up">
+              <div class="overview-feature-header">
+                <i class="fas fa-sun"></i>
+                <h3>Removable Shade</h3>
+              </div>
+              <div class="feature-content">
+                <p>Magnetic clip-on shade transforms your glasses from indoor to outdoor in seconds</p>
+              </div>
+            </div>
+            <div class="overview-feature" data-aos="fade-up">
+              <div class="overview-feature-header">
+                <i class="fas fa-battery-full"></i>
+                <h3>All-Day Power</h3>
+              </div>
+              <div class="feature-content">
+                <p>8+ hours of continuous playback on a single charge</p>
+              </div>
+            </div>
+          </div>
+          <button class="overview-toggle-btn">View All Features</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Smart Features</h2>
+        <p>Discover what makes TSonic the ultimate eyewear innovation</p>
+      </div>
+      <div class="features-slider" id="featuresSlider">
+        <div class="feature-card active" id="feature1">
+          <div class="feature-icon">
+            <i class="fas fa-music"></i>
+          </div>
+          <h3>Premium Sound</h3>
+          <p>Open-ear audio technology delivers immersive sound while keeping you aware of your surroundings</p>
+        </div>
+        
+        <div class="feature-card" id="feature2">
+          <div class="feature-icon">
+            <i class="fas fa-tint"></i>
+          </div>
+          <h3>Water Resistant</h3>
+          <p>IPX4 rating protects against sweat and light rain, perfect for active lifestyles</p>
+        </div>
+        
+        <div class="feature-card" id="feature3">
+          <div class="feature-icon">
+            <i class="fas fa-phone-alt"></i>
+          </div>
+          <h3>Crystal Clear Calls</h3>
+          <p>Dual noise-cancelling microphones ensure your voice comes through loud and clear</p>
+        </div>
+        
+        <div class="feature-card" id="feature4">
+          <div class="feature-icon">
+            <i class="fas fa-glasses"></i>
+          </div>
+          <h3>Prescription Ready</h3>
+          <p>Compatible with prescription lenses - simply take to your optician for fitting</p>
+        </div>
+        
+        <div class="feature-card" id="feature5">
+          <div class="feature-icon">
+            <i class="fas fa-feather-alt"></i>
+          </div>
+          <h3>Lightweight Design</h3>
+          <p>Weighing just 45g, you'll forget you're wearing them</p>
+        </div>
+
+        <div class="feature-card" id="feature6">
+          <div class="feature-icon">
+            <i class="fas fa-headphones"></i>
+          </div>
+          <h3>SIRI support</h3>
+          <p>Virtual Assitant while driving, makes sure you stay safe</p>
+        </div>
+      </div>
+      <div class="feature-nav">
+        <span class="feature-dot active" data-index="0"></span>
+        <span class="feature-dot" data-index="1"></span>
+        <span class="feature-dot" data-index="2"></span>
+        <span class="feature-dot" data-index="3"></span>
+        <span class="feature-dot" data-index="4"></span>
+        <span class="feature-dot" data-index="5"></span>
+      </div>
+      <div class="swipe-indicator">
+        <i class="fas fa-arrow-left"></i>
+        Swipe for more
+        <i class="fas fa-arrow-right"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Specs Section -->
+  <section id="specs" class="specs">
+    <div class="container">
+      <div class="section-header">
+        <h2>Technical Specifications</h2>
+        <p>The details that make TSonic exceptional</p>
+      </div>
+      <div class="specs-content">
+        <div class="specs-image">
+          <img src="./src/assets/images/product-specs.gif" alt="TSonic Specifications" style="width: 100%; height: auto; border-radius: 16px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);">
+        </div>
+        <div class="specs-details-container" style="position: relative;">
+          <div class="specs-details">
+            <div class="spec-item" data-aos="fade-up">
+              <h4>Connectivity</h4>
+              <p>Bluetooth 5.0, 10m range</p>
+            </div>
+            <div class="spec-item" data-aos="fade-up">
+              <h4>Battery Life</h4>
+              <p>8+ hours playback, 2 hours charging time</p>
+            </div>
+            <div class="spec-item" data-aos="fade-up">
+              <h4>Audio</h4>
+              <p>Open-ear audio, dual microphones</p>
+            </div>
+            <div class="spec-item" data-aos="fade-up">
+              <h4>Materials</h4>
+              <p>Lightweight TR90 frame, polarized shade</p>
+            </div>
+            <div class="spec-item" data-aos="fade-up">
+              <h4>Weight</h4>
+              <p>45g (glasses), 15g (shade)</p>
+            </div>
+            <div class="spec-item" data-aos="fade-up">
+              <h4>Water Resistance</h4>
+              <p>IPX4 rated</p>
+            </div>
+            <div class="spec-item" data-aos="fade-up">
+              <h4>Controls</h4>
+              <p>Touch controls on temple</p>
+            </div>
+            <div class="spec-item" data-aos="fade-up">
+              <h4>Compatibility</h4>
+              <p>iOS, Android, Windows</p>
+            </div>
+            <div class="spec-item" data-aos="fade-up">
+              <h4>Sweat proof</h4>
+              <p>Dust and Sweat proof</p>
+            </div>
+          </div>
+          <button class="specs-toggle-btn">View All Specs</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <h2>What Our Customers Say</h2>
+        <p>Join thousands of satisfied TSonic users</p>
+      </div>
+      <div class="testimonials-slider">
+        <div class="testimonial-card active">
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">"The removable shade is genius! I use these for my morning commute and throughout my work. The sound quality is nice."</p>
+          <div class="testimonial-author">
+            <p>- Ankita T Patel (🇮🇳)</p>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">"I was skeptical about audio glasses, but TSonic had nice Siri integration and sound quality"</p>
+          <div class="testimonial-author">
+            <p>- Sarah K(🇳🇬)</p>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">"Just a phrase- Absolutely worth every penny!"</p>
+          <div class="testimonial-author">
+            <p>- David Rutherford(🇳🇿)</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-nav">
+        <span class="testimonial-dot active"></span>
+        <span class="testimonial-dot"></span>
+        <span class="testimonial-dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="order" class="cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Experience TSonic?</h2>
+        <p>Limited time offer: Get 35% off and Global free shipping!</p>
+        <div class="price-tag">
+          <p class="current-price">₹3699</p>
+          <p class="original-price">₹7699</p>
+        </div>
+        <div class="cta-buttons">
+          <a href="#checkout" class="btn btn-primary btn-large">Order Now</a>
+          <a href="https://wa.me/+919512550029?text=I'm%20interested%20in%20SmartShade%20Bluetooth%20Eyeglasses" class="btn btn-secondary btn-large">
+            <i class="fab fa-whatsapp"></i> Click to WhatsApp
+          </a>
+        </div>
+        <p class="guarantee">7-day Replacement for defectives. Chat on Whatsapp for details</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h2>TSonic</h2>
+          <p>Bluetooth Eyewear</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#specs">Specifications</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#order">Order Now</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h3>Contact Us</h3>
+          <p><i class="fas fa-envelope"></i> support@TSonic.com</p>
+          <p><i class="fas fa-phone"></i> +919512550029</p>
+          <div class="social-icons">
+            <a href="https://www.youtube.com/watch?v=nUabTtpdy70"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.youtube.com/watch?v=nUabTtpdy70"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/watch?v=nUabTtpdy70"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.youtube.com/watch?v=nUabTtpdy70"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 TSonic. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Checkout Modal -->
+  <div id="checkout" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Complete Your Order</h2>
+      <form id="order-form">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Shipping Address</label>
+          <textarea id="address" name="address" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="payment">Payment Method</label>
+          <select id="payment" name="payment" required>
+            <option value="">Select payment method</option>
+            <option value="credit">Credit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="bank">Bank Transfer</option>
+          </select>
+        </div>
+        <div class="order-summary">
+          <h3>Order Summary</h3>
+          <p>TSonic v1.0 Eyeglasses: 3699</p>
+          <p>Shipping: FREE</p>
+          <p class="total">Total: 3699</p>
+        </div>
+        <button type="submit" class="btn btn-primary">Complete Purchase</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Chat Widget -->
+  <div class="chat-widget">
+    <a href="https://wa.me/+919512550029?text=I'm%20interested%20in%20SmartShade%20Bluetooth%20Eyeglasses" class="chat-button">
+      <i class="fab fa-whatsapp"></i> Assistance
+    </a>
+  </div>
+
+  <!-- Add auto-sliding JavaScript for Features section -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Feature slider functionality
+      const featuresSlider = document.getElementById('featuresSlider');
+      const featureCards = featuresSlider.querySelectorAll('.feature-card');
+      const featureDots = document.querySelectorAll('.feature-dot');
+      let currentFeatureIndex = 0;
+      let touchStartX = 0;
+      let touchEndX = 0;
+      let isFeatureAnimating = false;
+      let featureAutoplayTimer;
+      let isMobile = window.innerWidth <= 768;
+      
+      // Initialize the slider based on device
+      function initFeaturesSlider() {
+        isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+          // Mobile setup - only show active card
+          setupMobileSlider();
+          startFeatureAutoplay();
+        } else {
+          // Desktop setup - show all cards in grid
+          setupDesktopSlider();
+          stopFeatureAutoplay();
+        }
+      }
+      
+      function setupMobileSlider() {
+        // Apply mobile-specific styles
+        featuresSlider.classList.add('mobile-view');
+        
+        // Position all cards
+        featureCards.forEach((card, index) => {
+          // Set initial positions
+          if (index === currentFeatureIndex) {
+            card.classList.add('active');
+            card.style.transform = 'translateX(0)';
+            card.style.opacity = '1';
+            card.style.visibility = 'visible';
+            card.style.position = 'relative';
+          } else {
+            card.classList.remove('active');
+            card.style.transform = index > currentFeatureIndex ? 'translateX(100%)' : 'translateX(-100%)';
+            card.style.opacity = '0';
+            card.style.visibility = 'hidden';
+            card.style.position = 'absolute';
+          }
+        });
+        
+        // Show navigation dots
+        document.querySelector('.feature-nav').style.display = 'flex';
+        document.querySelector('.swipe-indicator').style.display = 'flex';
+      }
+      
+      function setupDesktopSlider() {
+        // Apply desktop-specific styles
+        featuresSlider.classList.remove('mobile-view');
+        
+        // Reset all cards to visible grid items
+        featureCards.forEach(card => {
+          card.classList.remove('active', 'prev', 'next', 'sliding-left', 'sliding-right', 'sliding-out-left', 'sliding-out-right');
+          card.style.transform = '';
+          card.style.opacity = '1';
+          card.style.visibility = 'visible';
+          card.style.position = 'relative';
+        });
+        
+        // Hide navigation on desktop
+        document.querySelector('.feature-nav').style.display = 'none';
+        document.querySelector('.swipe-indicator').style.display = 'none';
+      }
+      
+      function showFeatureSlide(index) {
+        if (isFeatureAnimating || !isMobile) return;
+        isFeatureAnimating = true;
+        
+        const direction = index > currentFeatureIndex ? 'right' : 'left';
+        const currentCard = featureCards[currentFeatureIndex];
+        const nextCard = featureCards[index];
+        
+        // Reset classes
+        featureCards.forEach(card => {
+          card.classList.remove('sliding-left', 'sliding-right', 'sliding-out-left', 'sliding-out-right');
+        });
+        
+        // Position the next card
+        nextCard.style.transform = direction === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
+        nextCard.style.opacity = '0';
+        nextCard.style.visibility = 'visible';
+        nextCard.style.position = 'absolute';
+        
+        // Force reflow
+        void nextCard.offsetWidth;
+        
+        // Add animation classes
+        currentCard.classList.add(direction === 'right' ? 'sliding-out-left' : 'sliding-out-right');
+        nextCard.classList.add(direction === 'right' ? 'sliding-right' : 'sliding-left');
+        
+        // Update active dot
+        featureDots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === index);
+        });
+        
+        // After animation completes
+        setTimeout(() => {
+          // Update classes
+          currentCard.classList.remove('active');
+          currentCard.style.visibility = 'hidden';
+          currentCard.style.position = 'absolute';
+          
+          nextCard.classList.add('active');
+          nextCard.style.transform = 'translateX(0)';
+          nextCard.style.opacity = '1';
+          nextCard.style.position = 'relative';
+          
+          // Update current index
+          currentFeatureIndex = index;
+          isFeatureAnimating = false;
+        }, 500);
+      }
+      
+      function nextFeatureSlide() {
+        if (!isMobile || isFeatureAnimating) return;
+        const nextIndex = (currentFeatureIndex + 1) % featureCards.length;
+        showFeatureSlide(nextIndex);
+      }
+      
+      function prevFeatureSlide() {
+        if (!isMobile || isFeatureAnimating) return;
+        const prevIndex = (currentFeatureIndex - 1 + featureCards.length) % featureCards.length;
+        showFeatureSlide(prevIndex);
+      }
+      
+      function startFeatureAutoplay() {
+        stopFeatureAutoplay();
+        if (isMobile) {
+          featureAutoplayTimer = setInterval(nextFeatureSlide, 5000);
+        }
+      }
+      
+      function stopFeatureAutoplay() {
+        if (featureAutoplayTimer) {
+          clearInterval(featureAutoplayTimer);
+          featureAutoplayTimer = null;
+        }
+      }
+      
+      // Touch event handlers
+      featuresSlider.addEventListener('touchstart', (e) => {
+        if (!isMobile) return;
+        touchStartX = e.touches[0].clientX;
+        stopFeatureAutoplay();
+        featuresSlider.classList.add('interacted');
+      }, { passive: true });
+      
+      featuresSlider.addEventListener('touchmove', (e) => {
+        if (!isMobile) return;
+        touchEndX = e.touches[0].clientX;
+      }, { passive: true });
+      
+      featuresSlider.addEventListener('touchend', (e) => {
+        if (!isMobile) return;
+        const swipeThreshold = 50;
+        const swipeDistance = touchEndX - touchStartX;
+        
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+          if (swipeDistance > 0) {
+            prevFeatureSlide();
+          } else {
+            nextFeatureSlide();
+          }
+        }
+        
+        startFeatureAutoplay();
+      }, { passive: true });
+      
+      // Dot navigation
+      featureDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          if (!isMobile) return;
+          const index = parseInt(dot.getAttribute('data-index'));
+          showFeatureSlide(index);
+          stopFeatureAutoplay();
+          setTimeout(startFeatureAutoplay, 5000);
+        });
+      });
+      
+      // Window resize handler
+      window.addEventListener('resize', () => {
+        const wasMobile = isMobile;
+        isMobile = window.innerWidth <= 768;
+        
+        // Only reinitialize if view mode changed
+        if (wasMobile !== isMobile) {
+          initFeaturesSlider();
+        }
+      });
+      
+      // Initialize on load
+      initFeaturesSlider();
+    });
+  </script>
+
+  <!-- Add this JavaScript for mobile menu functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navToggle = document.querySelector('.nav-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+      const body = document.body;
+      let isMenuOpen = false;
+      
+      function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+        body.classList.toggle('menu-open');
+      }
+
+      navToggle.addEventListener('click', toggleMenu);
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (isMenuOpen && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+          toggleMenu();
+        }
+      });
+
+      // Close menu when pressing escape key
+      document.addEventListener('keydown', (e) => {
+        if (isMenuOpen && e.key === 'Escape') {
+          toggleMenu();
+        }
+      });
+
+      // Handle touch events outside menu
+      document.addEventListener('touchstart', (e) => {
+        if (isMenuOpen && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+          toggleMenu();
+        }
+      }, { passive: true });
+
+      // Close menu when clicking a nav link
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (isMenuOpen) {
+            toggleMenu();
+          }
+        });
+      });
+
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && isMenuOpen) {
+          toggleMenu();
+        }
+      });
+    });
+  </script>
+
+  <!-- Add this JavaScript for collapsible features -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const features = document.querySelectorAll('.overview-feature');
+      
+      if (window.innerWidth <= 768) {
+        features.forEach(feature => {
+          feature.addEventListener('click', function() {
+            // Close all other features
+            features.forEach(f => {
+              if (f !== feature && f.classList.contains('active')) {
+                f.classList.remove('active');
+              }
+            });
+            // Toggle current feature
+            this.classList.toggle('active');
+          });
+        });
+      }
+    });
+  </script>
+
+  <!-- Add this JavaScript for collapsible specs -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const specsToggleBtn = document.querySelector('.specs-toggle-btn');
+      const specsDetails = document.querySelector('.specs-details');
+      
+      if (window.innerWidth <= 768 && specsToggleBtn && specsDetails) {
+        specsToggleBtn.addEventListener('click', function() {
+          specsDetails.classList.toggle('expanded');
+          this.textContent = specsDetails.classList.contains('expanded') ? 'Show Less' : 'View All Specs';
+        });
+      }
+    });
+  </script>
+
+  <!-- Add this JavaScript for collapsible overview features -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const overviewToggleBtn = document.querySelector('.overview-toggle-btn');
+      const overviewText = document.querySelector('.overview-text');
+      
+      if (window.innerWidth <= 768 && overviewToggleBtn && overviewText) {
+        overviewToggleBtn.addEventListener('click', function() {
+          overviewText.classList.toggle('expanded');
+          this.textContent = overviewText.classList.contains('expanded') ? 'Show Less' : 'View All Features';
+        });
+      }
+    });
+  </script>
+
+  <!-- Add this JavaScript for modal functionality -->
+  <script>
+    // Modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Order Now Modal
+      const orderLinks = document.querySelectorAll('a[href="#checkout"]');
+      const checkoutModal = document.getElementById('checkout');
+      const closeModal = document.querySelector('.close-modal');
+      
+      // Open modal when order links are clicked
+      orderLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          checkoutModal.style.display = 'flex';
+          document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+      });
+      
+      // Close modal when X is clicked
+      if (closeModal) {
+        closeModal.addEventListener('click', function() {
+          checkoutModal.style.display = 'none';
+          document.body.style.overflow = 'auto'; // Re-enable scrolling
+        });
+      }
+      
+      // Close modal when clicking outside the content
+      window.addEventListener('click', function(e) {
+        if (e.target === checkoutModal) {
+          checkoutModal.style.display = 'none';
+          document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+      });
+    });
+  </script>
+
+  <!-- Additional optimization scripts -->
+  <script>
+    // Fix for mobile video playback
+    document.addEventListener("DOMContentLoaded", function() {
+      const videoElement = document.getElementById("tsonicVideo");
+      
+      if (videoElement) {
+        // Function to handle video playing
+        function attemptPlay() {
+          if (videoElement.paused) {
+            // Try to play the video
+            var playPromise = videoElement.play();
+            
+            // Handle autoplay restrictions
+            if (playPromise !== undefined) {
+              playPromise.catch(function(error) {
+                console.log("Mobile autoplay error:", error);
+                
+                // Add touch event listener to play on first interaction
+                document.body.addEventListener('touchstart', function onFirstTouch() {
+                  videoElement.play().catch(function(e) {
+                    console.log("Still couldn't play:", e);
+                  });
+                  // Remove the event listener after first touch
+                  document.body.removeEventListener('touchstart', onFirstTouch);
+                }, { once: true });
+              });
+            }
+          }
+        }
+        
+        // Try to play when visible in viewport
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              attemptPlay();
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        observer.observe(videoElement);
+        
+        // Also try on window load
+        window.addEventListener('load', attemptPlay);
+        
+        // Try again on scroll (some mobile browsers only allow playing after user interaction)
+        window.addEventListener('scroll', attemptPlay, { once: true });
+      }
+    });
+  </script>
+</body>
+</html>
