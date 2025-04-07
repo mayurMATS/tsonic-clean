@@ -4,6 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TSonic  - Bluetooth Eyeglasses</title>
+  <!-- Preload critical assets to prevent Netlify optimization issues -->
+  <link rel="preload" href="./src/assets/images/hero-eyeglass.png" as="image">
+  <link rel="preload" href="./src/assets/images/product-overview.gif" as="image">
+  <link rel="preload" href="./src/assets/videos/editedTSonic.mp4" as="video">
+  <!-- Prevent resource optimization from breaking functionality -->
+  <meta name="netlify-resource-hints" content="hero-eyeglass.png=critical&product-overview.gif=critical&editedTSonic.mp4=critical">
+  
+  <!-- Alternative image loading method using picture tags -->
+  <noscript>
+    <picture>
+      <source srcset="./src/assets/images/hero-eyeglass.png" type="image/png">
+      <img src="./src/assets/images/hero-eyeglass.png" alt="" style="display:none" aria-hidden="true">
+    </picture>
+    <picture>
+      <source srcset="./src/assets/images/product-overview.gif" type="image/gif">
+      <img src="./src/assets/images/product-overview.gif" alt="" style="display:none" aria-hidden="true">
+    </picture>
+  </noscript>
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="./src/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,6 +30,7 @@
   
   <!-- Fallback styles to ensure features display correctly on Netlify -->
   <style>
+    /* Critical fallback styles for Netlify - DO NOT OPTIMIZE AWAY */
     #featuresSlider {
       min-height: 300px;
     }
@@ -33,10 +53,42 @@
       transform: none !important;
     }
     
+    /* Force hero background to always be visible */
+    .hero-background {
+      display: block !important;
+      background-image: url('./src/assets/images/hero-eyeglass.png') !important;
+      opacity: 0.25 !important;
+      position: absolute !important;
+      width: 100% !important;
+      height: 100% !important;
+      top: 0 !important;
+      left: 0 !important;
+      z-index: 0 !important;
+    }
+    
+    /* Force features background to always be visible */
+    .features-background {
+      display: block !important;
+      background-image: url('./src/assets/images/product-overview.gif') !important;
+      opacity: 0.25 !important;
+      position: absolute !important;
+      width: 100% !important;
+      height: 100% !important;
+      top: 0 !important;
+      left: 0 !important;
+      z-index: 0 !important;
+    }
+    
     /* Mobile view will override with JS */
     @media (max-width: 768px) {
       body.js-enabled #featuresSlider {
         display: block;
+      }
+      
+      /* Force critical backgrounds to show on mobile */
+      .hero-background, .features-background {
+        display: block !important;
+        opacity: 0.25 !important;
       }
     }
     
@@ -54,7 +106,73 @@
         transform: none !important;
       }
     }
+    
+    /* Print styles to ensure content is visible if printed from Netlify */
+    @media print {
+      .hero-background, .features-background {
+        display: none !important;
+      }
+      
+      #featuresSlider {
+        display: block !important;
+      }
+      
+      #featuresSlider .feature-card {
+        display: block !important;
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+      }
+    }
   </style>
+  
+  <noscript>
+    <style>
+      /* Styles for when JS is disabled - ensure content is visible */
+      body {
+        background-color: var(--darker-bg) !important;
+      }
+      
+      .hero-background {
+        background-image: url('./src/assets/images/hero-eyeglass.png') !important;
+        opacity: 0.25 !important;
+        display: block !important;
+      }
+      
+      .features-background {
+        background-image: url('./src/assets/images/product-overview.gif') !important;
+        opacity: 0.25 !important;
+        display: block !important;
+      }
+      
+      #featuresSlider {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+        gap: 20px !important;
+      }
+      
+      .feature-card {
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: relative !important;
+        transform: none !important;
+        margin-bottom: 15px !important;
+      }
+      
+      .feature-dot-container, .swipe-indicator {
+        display: none !important;
+      }
+      
+      @media (max-width: 768px) {
+        #featuresSlider {
+          display: block !important;
+        }
+        
+        .feature-card {
+          margin-bottom: 25px !important;
+        }
+      }
+    </style>
+  </noscript>
   
   <script>
     // Add this as a first script to ensure it runs immediately
@@ -226,19 +344,42 @@
       transform: scale(1.05);
       z-index: 0;
     }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at 30% 50%, rgba(0, 255, 179, 0.15) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 1;
-    }
     
+    /* Mobile-specific hero styles */
+    @media (max-width: 768px) {
+      .hero-background {
+        opacity: 0.2; /* Slightly reduced opacity for mobile */
+        background-size: cover;
+        background-position: center top;
+        height: 100% !important;
+        width: 100% !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        position: absolute !important;
+        display: block !important;
+        visibility: visible !important;
+        z-index: 0 !important;
+      }
+      
+      /* Alternative background method for mobile compatibility */
+      .hero::before {
+        background: radial-gradient(circle at 30% 50%, rgba(0, 255, 179, 0.2) 0%, transparent 70%) !important;
+        z-index: 1 !important;
+      }
+      
+      .hero {
+        min-height: 100vh; /* Ensure full height on mobile */
+        background-attachment: fixed; /* Help with mobile background issue */
+      }
+      
+      .hero .container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+    }
+
     .hero::after {
       content: '';
       position: absolute;
@@ -1361,7 +1502,134 @@
     }
   </style>
   <script>
+    // Helper function to ensure assets are loaded properly on Netlify
+    function ensureAssetLoading() {
+      // List of critical background images that must be loaded
+      const criticalBackgrounds = [
+        './src/assets/images/hero-eyeglass.png',
+        './src/assets/images/product-overview.gif'
+      ];
+      
+      // Preload images to ensure they're available
+      criticalBackgrounds.forEach(src => {
+        const img = new Image();
+        img.src = src;
+        // Force the browser to load the image
+        img.onload = function() {
+          console.log(`Successfully loaded: ${src}`);
+        };
+        img.onerror = function() {
+          console.error(`Failed to load: ${src}`);
+          // Fallback for Netlify - try again with absolute path
+          if (src.startsWith('./')) {
+            const absoluteSrc = src.substring(2);
+            const retryImg = new Image();
+            retryImg.src = absoluteSrc;
+            console.log(`Retrying with: ${absoluteSrc}`);
+          }
+        };
+      });
+      
+      // Ensure background elements are visible
+      setTimeout(function() {
+        // Fix hero background if it's not visible
+        const heroBackground = document.querySelector('.hero-background');
+        if (heroBackground) {
+          heroBackground.style.backgroundImage = 'url("./src/assets/images/hero-eyeglass.png")';
+          // Alternative path if Netlify changes it
+          setTimeout(() => {
+            if (getComputedStyle(heroBackground).backgroundImage === 'none') {
+              heroBackground.style.backgroundImage = 'url("/src/assets/images/hero-eyeglass.png")';
+            }
+          }, 500);
+        }
+        
+        // Fix features background if it's not visible
+        const featuresBackground = document.querySelector('.features-background');
+        if (featuresBackground) {
+          featuresBackground.style.backgroundImage = 'url("./src/assets/images/product-overview.gif")';
+          // Alternative path if Netlify changes it
+          setTimeout(() => {
+            if (getComputedStyle(featuresBackground).backgroundImage === 'none') {
+              featuresBackground.style.backgroundImage = 'url("/src/assets/images/product-overview.gif")';
+            }
+          }, 500);
+        }
+      }, 100);
+    }
+    
+    // Run on document load
     document.addEventListener("DOMContentLoaded", function() {
+      // Ensure critical assets are loaded
+      ensureAssetLoading();
+      
+      // Fix for hero background on mobile
+      const isMobile = window.innerWidth <= 768;
+      const heroBackground = document.querySelector('.hero-background');
+      const mobileHeroBg = document.querySelector('.mobile-hero-bg');
+      
+      if (isMobile && heroBackground && mobileHeroBg) {
+        // Show the fallback image for mobile
+        mobileHeroBg.style.display = 'block';
+        
+        // Force the hero background to be visible
+        heroBackground.style.cssText = `
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          opacity: 0.2 !important;
+          z-index: 0 !important;
+          background-image: url('./src/assets/images/hero-eyeglass.png') !important;
+          background-size: cover !important;
+          background-position: center !important;
+          filter: blur(5px) !important;
+          transform: scale(1.05) !important;
+          display: block !important;
+          visibility: visible !important;
+        `;
+      }
+      
+      // Handle resize events
+      window.addEventListener('resize', function() {
+        const isMobileNow = window.innerWidth <= 768;
+        if (isMobileNow !== isMobile && heroBackground && mobileHeroBg) {
+          if (isMobileNow) {
+            // Show the fallback image for mobile
+            mobileHeroBg.style.display = 'block';
+            
+            // Force the hero background to be visible
+            heroBackground.style.cssText = `
+              position: absolute !important;
+              top: 0 !important;
+              left: 0 !important;
+              right: 0 !important;
+              bottom: 0 !important;
+              width: 100% !important;
+              height: 100% !important;
+              opacity: 0.2 !important;
+              z-index: 0 !important;
+              background-image: url('./src/assets/images/hero-eyeglass.png') !important;
+              background-size: cover !important;
+              background-position: center !important;
+              filter: blur(5px) !important;
+              transform: scale(1.05) !important;
+              display: block !important;
+              visibility: visible !important;
+            `;
+          } else {
+            // Hide the fallback image for desktop
+            mobileHeroBg.style.display = 'none';
+            
+            // Reset styles for desktop
+            heroBackground.style = '';
+          }
+        }
+      });
+      
       const video = document.getElementById("tsonicVideo");
       
       // Mobile optimization - many mobile browsers won't autoplay
@@ -1415,6 +1683,13 @@
   <!-- Hero Section -->
   <section id="home" class="hero">
     <div class="hero-background"></div>
+    <!-- Fallback image for mobile devices -->
+    <img 
+      src="./src/assets/images/hero-eyeglass.png" 
+      alt="TSonic Eyeglasses Background" 
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; filter: blur(5px); z-index: 0; display: none;"
+      class="mobile-hero-bg"
+    />
     <div class="container">
       <div class="hero-content">
         <h1>TSonic v1.0</h1>
@@ -1783,26 +2058,53 @@
 
   <!-- Add auto-sliding JavaScript for Features section -->
   <script>
+    // Make feature slider function available globally
+    let featureSliderTimeout = null;
+    
     document.addEventListener('DOMContentLoaded', function() {
       console.log("DOM Content Loaded - Setting up feature slider");
       setupFeatureSlider();
       
-      // Run setup again after a short delay to ensure proper initialization
-      setTimeout(setupFeatureSlider, 100);
+      // Multiple initialization attempts to ensure slider works properly
+      // This helps with Netlify's optimization which might delay resource loading
+      clearTimeout(featureSliderTimeout);
+      featureSliderTimeout = setTimeout(setupFeatureSlider, 100);
+      
+      // Additional initialization after longer delay for network issues
       setTimeout(setupFeatureSlider, 500);
+      setTimeout(setupFeatureSlider, 1000);
+      
+      // Final attempt after all resources should be loaded
+      window.addEventListener('load', function() {
+        setupFeatureSlider();
+        // One more attempt after window load
+        setTimeout(setupFeatureSlider, 500);
+      });
     });
 
     // Separate function to handle setup
     function setupFeatureSlider() {
+      console.log("Setting up feature slider - attempt at " + new Date().getTime());
       // Get references to elements
       const featuresSlider = document.getElementById('featuresSlider');
       if (!featuresSlider) {
         console.error("Features slider not found");
         return;
       }
+      
+      // Make sure element is visible first in case of Netlify optimizations
+      featuresSlider.style.display = window.innerWidth <= 768 ? 'block' : 'grid';
 
       const featureCards = featuresSlider.querySelectorAll('.feature-card');
+      if (!featureCards.length) {
+        console.error("Feature cards not found");
+        return;
+      }
+      
       const featureDots = document.querySelectorAll('.feature-dot');
+      if (!featureDots.length) {
+        console.error("Feature dots not found");
+      }
       
       // Force mark body as JS-enabled 
       document.body.classList.add('js-enabled');
@@ -1879,93 +2181,74 @@
       }
       
       function setupMobileLayout() {
-        console.log("Setting up mobile layout");
-        // Add mobile-specific class
-        featuresSlider.classList.add('mobile-view');
+        // Ensure the slider is visible and correctly styled for mobile
+        featuresSlider.style.cssText = `
+          display: block !important;
+          overflow: hidden !important;
+          position: relative !important;
+          width: 100% !important;
+          height: auto !important;
+        `;
         
-        // Force block display explicitly
-        featuresSlider.style.cssText = "display: block !important; grid-template-columns: unset !important;";
-        
-        // Hide all cards
-        featureCards.forEach((card, index) => {
-          // Remove any conflicting classes
-          card.classList.remove('active', 'visible', 'current', 'show');
-          
-          // Apply explicit styling to override conflicts
+        // Reset all cards first to avoid CSS conflicts
+        featureCards.forEach(card => {
           card.style.cssText = `
             position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: calc(100% - 3rem) !important;
+            width: 100% !important;
             opacity: 0 !important;
-            visibility: hidden !important;
-            transform: translateX(100px) !important;
-            transition: transform 0.4s ease, opacity 0.4s ease !important;
-            display: flex !important;
-            flex-direction: column !important;
+            transform: translateX(100%) !important;
+            transition: transform 0.5s ease, opacity 0.5s ease !important;
+            display: block !important;
+            pointer-events: none !important;
           `;
         });
         
-        // Show active card
-        const activeCard = featureCards[currentIndex];
-        activeCard.classList.add('active');
-        activeCard.style.cssText = `
-          position: relative !important;
-          opacity: 1 !important;
-          visibility: visible !important;
-          transform: translateX(0) !important;
-          transition: transform 0.4s ease, opacity 0.4s ease !important;
-          display: flex !important;
-          flex-direction: column !important;
-        `;
+        // Set first card as active
+        if (featureCards[0]) {
+          featureCards[0].style.cssText = `
+            position: relative !important;
+            width: 100% !important;
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+            transition: transform 0.5s ease, opacity 0.5s ease !important;
+            display: block !important;
+            pointer-events: auto !important;
+          `;
+        }
         
-        // Update indicator dots
+        // Update dots
         updateDots();
-        
-        // Show navigation elements explicitly
-        const navDots = document.querySelector('.feature-nav');
-        if (navDots) {
-          navDots.style.cssText = "display: flex !important; justify-content: center !important; margin-top: 2rem !important;";
-        }
-        
-        const swipeIndicator = document.querySelector('.swipe-indicator');
-        if (swipeIndicator) {
-          swipeIndicator.style.cssText = "display: flex !important; justify-content: center !important; margin-top: 1rem !important;";
-        }
       }
       
       function setupDesktopLayout() {
-        console.log("Setting up desktop layout");
-        // Remove mobile-specific class
-        featuresSlider.classList.remove('mobile-view');
+        // Ensure the slider is visible and correctly styled for desktop
+        featuresSlider.style.cssText = `
+          display: grid !important;
+          grid-template-columns: repeat(3, 1fr) !important;
+          gap: 30px !important;
+          position: relative !important;
+        `;
         
-        // Set to grid display
-        featuresSlider.style.cssText = "display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 2rem !important;";
-        
-        // Reset all cards
+        // Reset all cards to visible for desktop grid view
         featureCards.forEach(card => {
-          card.classList.remove('active');
           card.style.cssText = `
             position: relative !important;
+            width: 100% !important;
             opacity: 1 !important;
-            visibility: visible !important;
             transform: none !important;
-            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-            display: flex !important;
-            flex-direction: column !important;
+            transition: none !important;
+            display: block !important;
+            pointer-events: auto !important;
           `;
         });
         
-        // Hide navigation
-        const navDots = document.querySelector('.feature-nav');
-        if (navDots) {
-          navDots.style.display = 'none';
-        }
+        // Hide dots in desktop view
+        featureDots.forEach(dot => {
+          dot.style.display = 'none';
+        });
         
-        const swipeIndicator = document.querySelector('.swipe-indicator');
-        if (swipeIndicator) {
-          swipeIndicator.style.display = 'none';
-        }
+        // Clear all timers
+        clearAutoplay();
       }
       
       function goToSlide(index) {
@@ -2246,5 +2529,32 @@
       }
     });
   </script>
+
+  <!-- Netlify asset importance markers (invisible to users) -->
+  <div style="display:none" aria-hidden="true" data-netlify-important="true">
+    <div data-netlify-asset="hero-eyeglass.png" data-importance="critical">Hero background image is critical for site appearance</div>
+    <div data-netlify-asset="product-overview.gif" data-importance="critical">Features background image is critical for site appearance</div>
+    <div data-netlify-asset="editedTSonic.mp4" data-importance="critical">Product video is critical for customer understanding</div>
+    <div data-netlify-asset="features-slider" data-importance="critical">Features slider is essential for mobile functionality</div>
+    <div data-netlify-asset="hero-section" data-importance="critical">Hero section styling is critical for site appearance</div>
+    <div data-netlify-cache="no-cache">
+      <!-- Force no caching on critical JS functions -->
+      <script type="application/json">
+        {
+          "critical_functions": [
+            "setupFeatureSlider",
+            "ensureAssetLoading"
+          ],
+          "critical_selectors": [
+            ".hero-background",
+            ".features-background",
+            "#featuresSlider",
+            ".feature-card",
+            ".hero"
+          ]
+        }
+      </script>
+    </div>
+  </div>
 </body>
 </html>

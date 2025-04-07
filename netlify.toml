@@ -9,3 +9,57 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Prevent Netlify from overly optimizing critical assets
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+# Critical asset handling - prevent optimization that might break functionality
+[[plugins]]
+  package = "@netlify/plugin-local-install-core"
+
+[plugins.inputs]
+  mode = "copy"
+
+# Asset optimization exclusions
+[[headers]]
+  for = "/src/assets/images/hero-eyeglass.png"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+    X-Netlify-No-Transform = "true"
+
+[[headers]]
+  for = "/src/assets/images/product-overview.gif"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+    X-Netlify-No-Transform = "true"
+
+[[headers]]
+  for = "/src/assets/videos/editedTSonic.mp4"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+    X-Netlify-No-Transform = "true"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"

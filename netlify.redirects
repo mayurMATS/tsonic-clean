@@ -1,0 +1,7 @@
+# Ensure critical assets bypass Netlify's optimization
+/src/assets/images/hero-eyeglass.png /.netlify/functions/asset-optimization-bypass 200
+/src/assets/images/product-overview.gif /.netlify/functions/asset-optimization-bypass 200
+/src/assets/videos/editedTSonic.mp4 /.netlify/functions/asset-optimization-bypass 200
+
+# Default redirect
+/* /index.html 200
