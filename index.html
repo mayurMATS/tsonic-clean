@@ -16,21 +16,42 @@
     }
     
     #featuresSlider .feature-card {
-      opacity: 1;
-      visibility: visible;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
     
+    /* Default to grid layout for non-JS environments */
+    #featuresSlider {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    #featuresSlider .feature-card {
+      display: flex !important;
+      position: static !important;
+      transform: none !important;
+    }
+    
+    /* Mobile view will override with JS */
+    @media (max-width: 768px) {
+      body.js-enabled #featuresSlider {
+        display: block;
+      }
+    }
+    
+    /* Desktop view */
     @media (min-width: 769px) {
       #featuresSlider {
-        display: grid;
+        display: grid !important;
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
       }
       
       #featuresSlider .feature-card {
-        display: flex;
-        position: relative;
-        transform: none;
+        display: flex !important;
+        position: relative !important;
+        transform: none !important;
       }
     }
   </style>
@@ -39,6 +60,9 @@
     // Add this as a first script to ensure it runs immediately
     // Force initialize features slider on window load to fix Netlify issues
     window.addEventListener('load', function() {
+      // Mark body as having JavaScript enabled
+      document.body.classList.add('js-enabled');
+      
       console.log("Window loaded - initializing features slider");
       const featuresSlider = document.getElementById('featuresSlider');
       if (featuresSlider) {
@@ -247,6 +271,50 @@
       position: relative;
       padding: 4rem 0;
       color: var(--light-text);
+      overflow: hidden; /* Ensure the background doesn't overflow */
+    }
+
+    .features-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('./src/assets/images/product-overview.gif');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.3; /* Corrected from 100 to a valid opacity value */
+      z-index: 0;
+      filter: blur(5px); /* Reduced blur for better visibility */
+      transform: scale(1.05); /* Slightly scale up to cover blur edges */
+    }
+    
+    .features .container {
+      position: relative;
+      z-index: 1; /* Place content above the background */
+    }
+    
+    /* Additional background treatments */
+    .features::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(0, 255, 179, 0.15) 0%, transparent 70%); /* Increased intensity */
+      z-index: 0;
+    }
+    
+    .features::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, var(--darker-bg) 0%, transparent 15%, transparent 85%, var(--darker-bg) 100%);
+      z-index: 0;
     }
 
     .specs {
@@ -254,7 +322,7 @@
       position: relative;
       color: var(--light-text);
     }
-
+    
     .specs .section-header h2 {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       -webkit-background-clip: text;
@@ -1027,9 +1095,9 @@
 
     /* Enhanced Features Slider styling */
     .features-slider {
-      background: rgba(19, 17, 29, 0.5);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 255, 179, 0.1);
+      background: rgba(19, 17, 29, 0.7); /* Increased opacity for better contrast */
+      backdrop-filter: blur(15px); /* Enhanced blur effect */
+      border: 1px solid rgba(0, 255, 179, 0.2); /* Brighter border */
       border-radius: 20px;
       padding: 2rem;
       margin: 2rem auto;
@@ -1078,34 +1146,78 @@
     /* Mobile View - Carousel Layout */
     @media (max-width: 768px) {
       .features-slider {
-        display: block;
-        min-height: 300px;
+        display: block !important; /* Force block display on mobile */
+        min-height: 400px; /* Increase height for mobile */
         padding: 2rem 1.5rem;
+        position: relative; /* Ensure correct positioning context */
+        overflow: hidden !important; /* Prevent vertical scrolling */
       }
       
-      .features-slider.mobile-view {
-        height: 100%;
-        position: relative;
+      /* Reset default feature cards display that could be coming from CSS conflicts */
+      #featuresSlider {
+        display: block !important;
+        grid-template-columns: unset !important;
+        grid-auto-flow: unset !important;
+        flex-direction: unset !important;
       }
       
+      /* Features slider mobile styling */
       .features-slider .feature-card {
-        transition: transform 0.5s ease, opacity 0.5s ease;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: calc(100% - 3rem) !important;
+        height: auto !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateX(100px) !important;
+        transition: transform 0.4s ease, opacity 0.4s ease !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
       }
       
-      .features-slider .feature-card.sliding-left {
-        animation: slideInLeft 0.5s ease forwards;
+      .features-slider .feature-card.active {
+        position: relative !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(0) !important;
       }
       
-      .features-slider .feature-card.sliding-right {
-        animation: slideInRight 0.5s ease forwards;
+      /* Explicitly show navigation elements on mobile */
+      .feature-nav {
+        display: flex !important;
+        justify-content: center !important;
+        gap: 0.8rem !important;
+        margin-top: 2rem !important;
+        width: 100% !important;
       }
       
-      .features-slider .feature-card.sliding-out-left {
-        animation: slideOutLeft 0.5s ease forwards;
+      .swipe-indicator {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin-top: 1rem !important;
+        width: 100% !important;
       }
       
-      .features-slider .feature-card.sliding-out-right {
-        animation: slideOutRight 0.5s ease forwards;
+      /* Style dots for better visibility */
+      .feature-dot {
+        position: relative !important;
+        width: 10px !important;
+        height: 10px !important;
+        border-radius: 5px !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+      }
+      
+      .feature-dot.active {
+        width: 24px !important;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
       }
     }
 
@@ -1288,7 +1400,7 @@
   </section>
 
   <!-- Overview Section -->
-  <section id="overview" class="overview">
+  <!-- <section id="overview" class="overview">
     <div class="container">
       <div class="section-header">
         <h2>The Future of Eyewear</h2>
@@ -1332,10 +1444,11 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- Features Section -->
   <section id="features" class="features">
+    <div class="features-background"></div>
     <div class="container">
       <div class="section-header">
         <h2>Smart Features</h2>
@@ -1627,237 +1740,271 @@
   <!-- Add auto-sliding JavaScript for Features section -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Feature slider functionality
+      console.log("DOM Content Loaded - Setting up feature slider");
+      setupFeatureSlider();
+      
+      // Run setup again after a short delay to ensure proper initialization
+      setTimeout(setupFeatureSlider, 100);
+      setTimeout(setupFeatureSlider, 500);
+    });
+
+    // Separate function to handle setup
+    function setupFeatureSlider() {
+      // Get references to elements
       const featuresSlider = document.getElementById('featuresSlider');
       if (!featuresSlider) {
-        console.error("Features slider element not found");
+        console.error("Features slider not found");
         return;
       }
-      
-      // Ensure the slider is visible
-      if (window.innerWidth > 768) {
-        console.log("Initial desktop setup");
-        featuresSlider.style.display = 'grid';
-      } else {
-        console.log("Initial mobile setup");
-        featuresSlider.style.display = 'block';
-      }
-      
+
       const featureCards = featuresSlider.querySelectorAll('.feature-card');
       const featureDots = document.querySelectorAll('.feature-dot');
-      let currentFeatureIndex = 0;
+      
+      // Force mark body as JS-enabled 
+      document.body.classList.add('js-enabled');
+      
+      // State variables
+      let currentIndex = 0;
+      let isMobile = window.innerWidth <= 768;
+      let autoplayTimer = null;
+      let isAnimating = false;
+      
+      // Initial setup based on device
+      initialize();
+      
+      // Add event listeners for dot navigation
+      featureDots.forEach((dot, index) => {
+        dot.addEventListener('click', function() {
+          if (!isMobile) return;
+          goToSlide(index);
+          resetAutoplay();
+        });
+      });
+      
+      // Add touch event listeners for swipe
       let touchStartX = 0;
       let touchEndX = 0;
-      let isFeatureAnimating = false;
-      let featureAutoplayTimer;
-      let isMobile = window.innerWidth <= 768;
       
-      // Initialize the slider based on device
-      function initFeaturesSlider() {
-        isMobile = window.innerWidth <= 768;
-        
-        // Clear any inline styles that might be interfering
-        featuresSlider.removeAttribute('style');
-        featureCards.forEach(card => {
-          // Only clear transform, opacity & visibility to avoid breaking other styles
-          card.style.transform = '';
-          card.style.opacity = '';
-        });
-        
-        if (isMobile) {
-          // Mobile setup - only show active card
-          setupMobileSlider();
-          startFeatureAutoplay();
-        } else {
-          // Desktop setup - show all cards in grid
-          setupDesktopSlider();
-          stopFeatureAutoplay();
-        }
-      }
-      
-      function setupMobileSlider() {
-        // Apply mobile-specific styles
-        featuresSlider.classList.add('mobile-view');
-        featuresSlider.style.display = 'block';
-        
-        // Position all cards
-        featureCards.forEach((card, index) => {
-          // Set initial positions
-          if (index === currentFeatureIndex) {
-            card.classList.add('active');
-            card.style.transform = 'translateX(0)';
-            card.style.opacity = '1';
-            card.style.visibility = 'visible';
-            card.style.position = 'relative';
-          } else {
-            card.classList.remove('active');
-            card.style.transform = index > currentFeatureIndex ? 'translateX(100%)' : 'translateX(-100%)';
-            card.style.opacity = '0';
-            card.style.visibility = 'hidden';
-            card.style.position = 'absolute';
-          }
-        });
-        
-        // Show navigation dots
-        document.querySelector('.feature-nav').style.display = 'flex';
-        document.querySelector('.swipe-indicator').style.display = 'flex';
-      }
-      
-      function setupDesktopSlider() {
-        // Apply desktop-specific styles
-        featuresSlider.classList.remove('mobile-view');
-        featuresSlider.style.display = 'grid';
-        
-        // Reset all cards to visible grid items
-        featureCards.forEach(card => {
-          card.classList.remove('active', 'prev', 'next', 'sliding-left', 'sliding-right', 'sliding-out-left', 'sliding-out-right');
-          card.style.transform = '';
-          card.style.opacity = '1';
-          card.style.visibility = 'visible';
-          card.style.position = 'relative';
-          card.style.display = 'flex'; // Ensure cards are displayed
-          card.style.width = 'auto';
-          card.style.left = 'auto';
-          card.style.top = 'auto';
-        });
-        
-        // Hide navigation on desktop
-        document.querySelector('.feature-nav').style.display = 'none';
-        document.querySelector('.swipe-indicator').style.display = 'none';
-      }
-      
-      function showFeatureSlide(index) {
-        if (isFeatureAnimating || !isMobile) return;
-        isFeatureAnimating = true;
-        
-        const direction = index > currentFeatureIndex ? 'right' : 'left';
-        const currentCard = featureCards[currentFeatureIndex];
-        const nextCard = featureCards[index];
-        
-        // Reset classes
-        featureCards.forEach(card => {
-          card.classList.remove('sliding-left', 'sliding-right', 'sliding-out-left', 'sliding-out-right');
-        });
-        
-        // Position the next card
-        nextCard.style.transform = direction === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
-        nextCard.style.opacity = '0';
-        nextCard.style.visibility = 'visible';
-        nextCard.style.position = 'absolute';
-        
-        // Force reflow
-        void nextCard.offsetWidth;
-        
-        // Add animation classes
-        currentCard.classList.add(direction === 'right' ? 'sliding-out-left' : 'sliding-out-right');
-        nextCard.classList.add(direction === 'right' ? 'sliding-right' : 'sliding-left');
-        
-        // Update active dot
-        featureDots.forEach((dot, idx) => {
-          dot.classList.toggle('active', idx === index);
-        });
-        
-        // After animation completes
-        setTimeout(() => {
-          // Update classes
-          currentCard.classList.remove('active');
-          currentCard.style.visibility = 'hidden';
-          currentCard.style.position = 'absolute';
-          
-          nextCard.classList.add('active');
-          nextCard.style.transform = 'translateX(0)';
-          nextCard.style.opacity = '1';
-          nextCard.style.position = 'relative';
-          
-          // Update current index
-          currentFeatureIndex = index;
-          isFeatureAnimating = false;
-        }, 500);
-      }
-      
-      function nextFeatureSlide() {
-        if (!isMobile || isFeatureAnimating) return;
-        const nextIndex = (currentFeatureIndex + 1) % featureCards.length;
-        showFeatureSlide(nextIndex);
-      }
-      
-      function prevFeatureSlide() {
-        if (!isMobile || isFeatureAnimating) return;
-        const prevIndex = (currentFeatureIndex - 1 + featureCards.length) % featureCards.length;
-        showFeatureSlide(prevIndex);
-      }
-      
-      function startFeatureAutoplay() {
-        stopFeatureAutoplay();
-        if (isMobile) {
-          featureAutoplayTimer = setInterval(nextFeatureSlide, 5000);
-        }
-      }
-      
-      function stopFeatureAutoplay() {
-        if (featureAutoplayTimer) {
-          clearInterval(featureAutoplayTimer);
-          featureAutoplayTimer = null;
-        }
-      }
-      
-      // Touch event handlers
-      featuresSlider.addEventListener('touchstart', (e) => {
+      featuresSlider.addEventListener('touchstart', function(e) {
         if (!isMobile) return;
         touchStartX = e.touches[0].clientX;
-        stopFeatureAutoplay();
-        featuresSlider.classList.add('interacted');
+        clearAutoplay();
       }, { passive: true });
       
-      featuresSlider.addEventListener('touchmove', (e) => {
+      featuresSlider.addEventListener('touchmove', function(e) {
         if (!isMobile) return;
         touchEndX = e.touches[0].clientX;
       }, { passive: true });
       
-      featuresSlider.addEventListener('touchend', (e) => {
+      featuresSlider.addEventListener('touchend', function() {
         if (!isMobile) return;
-        const swipeThreshold = 50;
-        const swipeDistance = touchEndX - touchStartX;
         
-        if (Math.abs(swipeDistance) > swipeThreshold) {
-          if (swipeDistance > 0) {
-            prevFeatureSlide();
+        const distance = touchEndX - touchStartX;
+        if (Math.abs(distance) > 50) {
+          if (distance > 0) {
+            prevSlide();
           } else {
-            nextFeatureSlide();
+            nextSlide();
           }
         }
         
-        startFeatureAutoplay();
+        startAutoplay();
       }, { passive: true });
       
-      // Dot navigation
-      featureDots.forEach(dot => {
-        dot.addEventListener('click', () => {
-          if (!isMobile) return;
-          const index = parseInt(dot.getAttribute('data-index'));
-          showFeatureSlide(index);
-          stopFeatureAutoplay();
-          setTimeout(startFeatureAutoplay, 5000);
-        });
-      });
-      
-      // Window resize handler
-      window.addEventListener('resize', () => {
+      // Add window resize listener
+      window.addEventListener('resize', function() {
         const wasMobile = isMobile;
         isMobile = window.innerWidth <= 768;
         
-        // Only reinitialize if view mode changed
         if (wasMobile !== isMobile) {
-          initFeaturesSlider();
+          initialize();
         }
       });
       
-      // Initialize on load
-      initFeaturesSlider();
+      // Functions
+      function initialize() {
+        console.log("Initializing slider. Mobile:", isMobile);
+        clearAutoplay();
+        
+        if (isMobile) {
+          setupMobileLayout();
+          startAutoplay();
+        } else {
+          setupDesktopLayout();
+        }
+      }
       
-      // Also initialize after a small delay to ensure everything is properly loaded
-      setTimeout(initFeaturesSlider, 500);
-    });
+      function setupMobileLayout() {
+        console.log("Setting up mobile layout");
+        // Add mobile-specific class
+        featuresSlider.classList.add('mobile-view');
+        
+        // Force block display explicitly
+        featuresSlider.style.cssText = "display: block !important; grid-template-columns: unset !important;";
+        
+        // Hide all cards
+        featureCards.forEach((card, index) => {
+          // Remove any conflicting classes
+          card.classList.remove('active', 'visible', 'current', 'show');
+          
+          // Apply explicit styling to override conflicts
+          card.style.cssText = `
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: calc(100% - 3rem) !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: translateX(100px) !important;
+            transition: transform 0.4s ease, opacity 0.4s ease !important;
+            display: flex !important;
+            flex-direction: column !important;
+          `;
+        });
+        
+        // Show active card
+        const activeCard = featureCards[currentIndex];
+        activeCard.classList.add('active');
+        activeCard.style.cssText = `
+          position: relative !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: translateX(0) !important;
+          transition: transform 0.4s ease, opacity 0.4s ease !important;
+          display: flex !important;
+          flex-direction: column !important;
+        `;
+        
+        // Update indicator dots
+        updateDots();
+        
+        // Show navigation elements explicitly
+        const navDots = document.querySelector('.feature-nav');
+        if (navDots) {
+          navDots.style.cssText = "display: flex !important; justify-content: center !important; margin-top: 2rem !important;";
+        }
+        
+        const swipeIndicator = document.querySelector('.swipe-indicator');
+        if (swipeIndicator) {
+          swipeIndicator.style.cssText = "display: flex !important; justify-content: center !important; margin-top: 1rem !important;";
+        }
+      }
+      
+      function setupDesktopLayout() {
+        console.log("Setting up desktop layout");
+        // Remove mobile-specific class
+        featuresSlider.classList.remove('mobile-view');
+        
+        // Set to grid display
+        featuresSlider.style.cssText = "display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 2rem !important;";
+        
+        // Reset all cards
+        featureCards.forEach(card => {
+          card.classList.remove('active');
+          card.style.cssText = `
+            position: relative !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            display: flex !important;
+            flex-direction: column !important;
+          `;
+        });
+        
+        // Hide navigation
+        const navDots = document.querySelector('.feature-nav');
+        if (navDots) {
+          navDots.style.display = 'none';
+        }
+        
+        const swipeIndicator = document.querySelector('.swipe-indicator');
+        if (swipeIndicator) {
+          swipeIndicator.style.display = 'none';
+        }
+      }
+      
+      function goToSlide(index) {
+        if (isAnimating || !isMobile) return;
+        isAnimating = true;
+        
+        // Get current and target cards
+        const currentCard = featureCards[currentIndex];
+        const nextCard = featureCards[index];
+        
+        // Determine animation direction
+        const direction = index > currentIndex ? 1 : -1;
+        
+        // Apply exit animation to current card
+        currentCard.classList.remove('active');
+        currentCard.style.cssText = `
+          position: absolute !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          transform: translateX(${-100 * direction}px) !important;
+          transition: transform 0.4s ease, opacity 0.4s ease !important;
+          display: flex !important;
+          flex-direction: column !important;
+        `;
+        
+        // Apply enter animation to next card
+        nextCard.classList.add('active');
+        nextCard.style.cssText = `
+          position: relative !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: translateX(0) !important;
+          transition: transform 0.4s ease, opacity 0.4s ease !important;
+          display: flex !important;
+          flex-direction: column !important;
+        `;
+        
+        // Update current index
+        currentIndex = index;
+        
+        // Update dots
+        updateDots();
+        
+        // Reset animation flag
+        setTimeout(() => {
+          isAnimating = false;
+        }, 400);
+      }
+      
+      function nextSlide() {
+        const nextIndex = (currentIndex + 1) % featureCards.length;
+        goToSlide(nextIndex);
+      }
+      
+      function prevSlide() {
+        const prevIndex = (currentIndex - 1 + featureCards.length) % featureCards.length;
+        goToSlide(prevIndex);
+      }
+      
+      function updateDots() {
+        featureDots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentIndex);
+        });
+      }
+      
+      function startAutoplay() {
+        if (!isMobile) return;
+        clearAutoplay();
+        autoplayTimer = setInterval(nextSlide, 5000);
+      }
+      
+      function clearAutoplay() {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+      
+      function resetAutoplay() {
+        clearAutoplay();
+        startAutoplay();
+      }
+    }
   </script>
 
   <!-- Add this JavaScript for mobile menu functionality -->
