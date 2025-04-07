@@ -8,6 +8,58 @@
   <link rel="stylesheet" href="./src/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script type="module" src="./src/main.ts" defer></script>
+  
+  <!-- Fallback styles to ensure features display correctly on Netlify -->
+  <style>
+    #featuresSlider {
+      min-height: 300px;
+    }
+    
+    #featuresSlider .feature-card {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    @media (min-width: 769px) {
+      #featuresSlider {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+      
+      #featuresSlider .feature-card {
+        display: flex;
+        position: relative;
+        transform: none;
+      }
+    }
+  </style>
+  
+  <script>
+    // Add this as a first script to ensure it runs immediately
+    // Force initialize features slider on window load to fix Netlify issues
+    window.addEventListener('load', function() {
+      console.log("Window loaded - initializing features slider");
+      const featuresSlider = document.getElementById('featuresSlider');
+      if (featuresSlider) {
+        // Force desktop view style if needed
+        if (window.innerWidth > 768) {
+          console.log("Setting desktop grid view");
+          featuresSlider.style.display = 'grid';
+          
+          // Make sure all feature cards are visible
+          const cards = featuresSlider.querySelectorAll('.feature-card');
+          cards.forEach(card => {
+            card.style.display = 'flex';
+            card.style.position = 'relative';
+            card.style.opacity = '1';
+            card.style.visibility = 'visible';
+            card.style.transform = 'none';
+          });
+        }
+      }
+    });
+  </script>
   <style>
     :root {
       --heading-font: 'Space Grotesk', sans-serif;
@@ -992,7 +1044,7 @@
     /* Desktop View - Grid Layout */
     @media (min-width: 769px) {
       .features-slider {
-        display: grid;
+        display: grid !important; /* Force grid display */
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
         min-height: auto;
@@ -1005,11 +1057,21 @@
         transform: none !important;
         visibility: visible !important;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex !important; /* Force display */
+        width: auto !important; /* Reset width */
+        left: auto !important; /* Reset left positioning */
+        top: auto !important; /* Reset top positioning */
       }
       
       .features-slider .feature-card:hover {
         transform: translateY(-5px) !important;
         box-shadow: 0 10px 30px rgba(0, 255, 179, 0.2);
+      }
+      
+      /* Hide mobile navigation on desktop */
+      .feature-nav, 
+      .swipe-indicator {
+        display: none !important;
       }
     }
     
@@ -1567,6 +1629,20 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Feature slider functionality
       const featuresSlider = document.getElementById('featuresSlider');
+      if (!featuresSlider) {
+        console.error("Features slider element not found");
+        return;
+      }
+      
+      // Ensure the slider is visible
+      if (window.innerWidth > 768) {
+        console.log("Initial desktop setup");
+        featuresSlider.style.display = 'grid';
+      } else {
+        console.log("Initial mobile setup");
+        featuresSlider.style.display = 'block';
+      }
+      
       const featureCards = featuresSlider.querySelectorAll('.feature-card');
       const featureDots = document.querySelectorAll('.feature-dot');
       let currentFeatureIndex = 0;
@@ -1579,6 +1655,14 @@
       // Initialize the slider based on device
       function initFeaturesSlider() {
         isMobile = window.innerWidth <= 768;
+        
+        // Clear any inline styles that might be interfering
+        featuresSlider.removeAttribute('style');
+        featureCards.forEach(card => {
+          // Only clear transform, opacity & visibility to avoid breaking other styles
+          card.style.transform = '';
+          card.style.opacity = '';
+        });
         
         if (isMobile) {
           // Mobile setup - only show active card
@@ -1594,6 +1678,7 @@
       function setupMobileSlider() {
         // Apply mobile-specific styles
         featuresSlider.classList.add('mobile-view');
+        featuresSlider.style.display = 'block';
         
         // Position all cards
         featureCards.forEach((card, index) => {
@@ -1621,6 +1706,7 @@
       function setupDesktopSlider() {
         // Apply desktop-specific styles
         featuresSlider.classList.remove('mobile-view');
+        featuresSlider.style.display = 'grid';
         
         // Reset all cards to visible grid items
         featureCards.forEach(card => {
@@ -1629,6 +1715,10 @@
           card.style.opacity = '1';
           card.style.visibility = 'visible';
           card.style.position = 'relative';
+          card.style.display = 'flex'; // Ensure cards are displayed
+          card.style.width = 'auto';
+          card.style.left = 'auto';
+          card.style.top = 'auto';
         });
         
         // Hide navigation on desktop
@@ -1764,6 +1854,9 @@
       
       // Initialize on load
       initFeaturesSlider();
+      
+      // Also initialize after a small delay to ensure everything is properly loaded
+      setTimeout(initFeaturesSlider, 500);
     });
   </script>
 
