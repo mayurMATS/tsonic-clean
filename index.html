@@ -211,6 +211,21 @@
       overflow: hidden;
       color: var(--light-text);
     }
+    
+    .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('./src/assets/images/hero-eyeglass.png');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.25;
+      filter: blur(5px);
+      transform: scale(1.05);
+      z-index: 0;
+    }
 
     .hero::before {
       content: '';
@@ -221,6 +236,38 @@
       bottom: 0;
       background: radial-gradient(circle at 30% 50%, rgba(0, 255, 179, 0.15) 0%, transparent 60%);
       pointer-events: none;
+      z-index: 1;
+    }
+    
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, var(--darker-bg) 0%, transparent 20%, transparent 80%, var(--darker-bg) 100%);
+      z-index: 1;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-image {
+      position: relative;
+      z-index: 2;
+      margin-top: 1rem;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .overview {
@@ -1367,6 +1414,7 @@
 
   <!-- Hero Section -->
   <section id="home" class="hero">
+    <div class="hero-background"></div>
     <div class="container">
       <div class="hero-content">
         <h1>TSonic v1.0</h1>
@@ -1377,9 +1425,6 @@
           <p class="price" style="text-align: center; margin: 0;">₹3699 <span class="original-price">₹5699</span></p>
         </div>
       </div>
-      <!-- <div class="hero-image">
-        <img src="./src/assets/videos/tsonic-demo.mp4" alt="TSonic Bluetooth Eyeglasses">
-      </div> -->
       <video
         class="hero-image"
         id="tsonicVideo"
@@ -1395,7 +1440,6 @@
         <source src="./src/assets/videos/editedTSonic.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
-
     </div>
   </section>
 
