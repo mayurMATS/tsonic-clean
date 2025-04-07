@@ -4,10 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TSonic  - Bluetooth Eyeglasses</title>
+  <!-- Critical meta tags for preventing Netlify optimization issues -->
+  <meta name="netlify-content-transform" content="disabled">
+  <meta name="netlify-optimization" content="disabled">
+  <meta name="netlify-resource-hints" content="hero-eyeglass.png=critical&product-overview.gif=critical&editedTSonic.mp4=critical&background.png=critical">
+  
   <!-- Preload critical assets to prevent Netlify optimization issues -->
   <link rel="preload" href="./src/assets/images/hero-eyeglass.png" as="image">
   <link rel="preload" href="./src/assets/images/product-overview.gif" as="image">
   <link rel="preload" href="./src/assets/videos/editedTSonic.mp4" as="video">
+  <link rel="preload" href="./src/assets/images/background.png" as="image">
+  <link rel="preload" href="./src/styles.css" as="style">
+  
   <!-- Prevent resource optimization from breaking functionality -->
   <meta name="netlify-resource-hints" content="hero-eyeglass.png=critical&product-overview.gif=critical&editedTSonic.mp4=critical">
   
@@ -31,6 +39,32 @@
   <!-- Fallback styles to ensure features display correctly on Netlify -->
   <style>
     /* Critical fallback styles for Netlify - DO NOT OPTIMIZE AWAY */
+    :root {
+      --primary-color: #00ffb3;
+      --secondary-color: #6C63FF;
+      --accent-color: #FF6B6B;
+      --dark-bg: #1E1B2E;
+      --darker-bg: #13111D;
+      --light-bg: #1A1E2D;
+      --lighter-bg: #242838;
+      --light-text: #ffffff;
+      --dark-text: #E0E0FF;
+      --muted-text: rgba(255, 255, 255, 0.85);
+      --muted-dark-text: rgba(224, 224, 255, 0.85);
+      --heading-font: 'Space Grotesk', sans-serif;
+      --body-font: 'Plus Jakarta Sans', sans-serif;
+      --logo-font: 'Outfit', sans-serif;
+      --border-radius: 8px;
+      --transition: all 0.3s ease;
+    }
+
+    /* Ensure the theme colors are preserved */
+    body {
+      background-color: var(--darker-bg);
+      color: var(--light-text);
+      font-family: var(--body-font);
+    }
+
     #featuresSlider {
       min-height: 300px;
     }
@@ -329,7 +363,7 @@
       overflow: hidden;
       color: var(--light-text);
     }
-    
+
     .hero-background {
       position: absolute;
       top: 0;
@@ -364,7 +398,7 @@
       }
       
       /* Alternative background method for mobile compatibility */
-      .hero::before {
+    .hero::before {
         background: radial-gradient(circle at 30% 50%, rgba(0, 255, 179, 0.2) 0%, transparent 70%) !important;
         z-index: 1 !important;
       }
@@ -510,7 +544,7 @@
       position: relative;
       color: var(--light-text);
     }
-    
+
     .specs .section-header h2 {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       -webkit-background-clip: text;
@@ -1455,7 +1489,7 @@
       max-width: 300px;
       margin: 0 auto;
     }
-    
+
     /* Enhanced animation keyframes */
     @keyframes slideInLeft {
       from {
@@ -1697,7 +1731,7 @@
         <p>Experience the blend of style, technology, and versatility</p>
         <div class="hero-cta" style="display: flex; align-items: left; justify-content: left; gap: 2rem; ">
           <a href="#order" class="btn btn-primary">Order Now</a>
-          <p class="price" style="text-align: center; margin: 0;">₹3699 <span class="original-price">₹5699</span></p>
+          <p class="price" style="text-align: center; margin: 0;">₹4290 <span class="original-price">₹5699</span></p>
         </div>
       </div>
       <video
@@ -1957,8 +1991,8 @@
         <h2>Ready to Experience TSonic?</h2>
         <p>Limited time offer: Get 35% off and Global free shipping!</p>
         <div class="price-tag">
-          <p class="current-price">₹3699</p>
-          <p class="original-price">₹7699</p>
+          <p class="current-price">₹4290</p>
+          <p class="original-price">₹5699</p>
         </div>
         <div class="cta-buttons">
           <a href="#checkout" class="btn btn-primary btn-large">Order Now</a>
@@ -2040,9 +2074,9 @@
         </div>
         <div class="order-summary">
           <h3>Order Summary</h3>
-          <p>TSonic v1.0 Eyeglasses: 3699</p>
+          <p>TSonic v1.0 Eyeglasses: 4290</p>
           <p>Shipping: FREE</p>
-          <p class="total">Total: 3699</p>
+          <p class="total">Total: 4290</p>
         </div>
         <button type="submit" class="btn btn-primary">Complete Purchase</button>
       </form>
@@ -2119,7 +2153,7 @@
       initialize();
       
       // Add event listeners for dot navigation
-      featureDots.forEach((dot, index) => {
+        featureDots.forEach((dot, index) => {
         dot.addEventListener('click', function() {
           if (!isMobile) return;
           goToSlide(index);
@@ -2149,7 +2183,7 @@
         if (Math.abs(distance) > 50) {
           if (distance > 0) {
             prevSlide();
-          } else {
+        } else {
             nextSlide();
           }
         }
@@ -2556,5 +2590,78 @@
       </script>
     </div>
   </div>
+  
+  <!-- Add testimonial slider functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Testimonial slider functionality
+      const testimonialCards = document.querySelectorAll('.testimonial-card');
+      const testimonialDots = document.querySelectorAll('.testimonial-dot');
+      let currentTestimonialIndex = 0;
+      
+      // Initialize - make sure first testimonial is active
+      showTestimonial(0);
+      
+      // Add click events to dots
+      testimonialDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showTestimonial(index);
+        });
+      });
+      
+      // Add swipe functionality for testimonials
+      const testimonialSlider = document.querySelector('.testimonials-slider');
+      if (testimonialSlider) {
+        let startX = 0;
+        let endX = 0;
+        
+        testimonialSlider.addEventListener('touchstart', (e) => {
+          startX = e.touches[0].clientX;
+        }, {passive: true});
+        
+        testimonialSlider.addEventListener('touchmove', (e) => {
+          endX = e.touches[0].clientX;
+        }, {passive: true});
+        
+        testimonialSlider.addEventListener('touchend', () => {
+          const diff = startX - endX;
+          if (Math.abs(diff) > 50) { // Minimum swipe distance
+            if (diff > 0) {
+              // Swiped left - next testimonial
+              nextTestimonial();
+            } else {
+              // Swiped right - previous testimonial
+              prevTestimonial();
+            }
+          }
+        }, {passive: true});
+      }
+      
+      // Functions to navigate testimonials
+      function showTestimonial(index) {
+        testimonialCards.forEach(card => card.classList.remove('active'));
+        testimonialDots.forEach(dot => dot.classList.remove('active'));
+        
+        testimonialCards[index].classList.add('active');
+        testimonialDots[index].classList.add('active');
+        currentTestimonialIndex = index;
+      }
+      
+      function nextTestimonial() {
+        let newIndex = currentTestimonialIndex + 1;
+        if (newIndex >= testimonialCards.length) newIndex = 0;
+        showTestimonial(newIndex);
+      }
+      
+      function prevTestimonial() {
+        let newIndex = currentTestimonialIndex - 1;
+        if (newIndex < 0) newIndex = testimonialCards.length - 1;
+        showTestimonial(newIndex);
+      }
+      
+      // Auto advance testimonials
+      setInterval(nextTestimonial, 7000);
+    });
+  </script>
 </body>
 </html>

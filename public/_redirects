@@ -1,5 +1,14 @@
 /*    /index.html   200
 
-/src/assets/images/hero-eyeglass.png Cache-Control: public, max-age=31536000, immutable X-Netlify-No-Transform=true
-/src/assets/images/product-overview.gif Cache-Control: public, max-age=31536000, immutable X-Netlify-No-Transform=true
-/src/assets/videos/editedTSonic.mp4 Cache-Control: public, max-age=31536000, immutable X-Netlify-No-Transform=true
+# Ensure critical assets bypass Netlify's optimization
+/src/assets/images/hero-eyeglass.png /.netlify/functions/asset-optimization-bypass 200
+/src/assets/images/product-overview.gif /.netlify/functions/asset-optimization-bypass 200
+/src/assets/videos/editedTSonic.mp4 /.netlify/functions/asset-optimization-bypass 200
+/src/assets/images/background.png /.netlify/functions/asset-optimization-bypass 200
+
+# Preserve CSS styling
+/src/styles.css /.netlify/functions/preserve-styles 200
+/*.css /.netlify/functions/preserve-styles 200
+
+# Prevent any asset from being transformed
+/src/assets/* /.netlify/functions/asset-optimization-bypass 200

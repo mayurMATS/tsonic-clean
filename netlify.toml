@@ -16,17 +16,17 @@
 
 [build.processing.css]
   bundle = true
-  minify = true
+  minify = false
 
 [build.processing.js]
   bundle = true
-  minify = true
+  minify = false
 
 [build.processing.html]
   pretty_urls = true
 
 [build.processing.images]
-  compress = true
+  compress = false
 
 # Critical asset handling - prevent optimization that might break functionality
 [[plugins]]
@@ -34,6 +34,14 @@
 
 [plugins.inputs]
   mode = "copy"
+
+# Global headers to preserve theme and functionality
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Netlify-No-Transform = "true"
+    Content-Security-Policy = "upgrade-insecure-requests"
+    X-Content-Type-Options = "nosniff"
 
 # Asset optimization exclusions
 [[headers]]
@@ -55,11 +63,31 @@
     X-Netlify-No-Transform = "true"
 
 [[headers]]
+  for = "/src/assets/images/background.png"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+    X-Netlify-No-Transform = "true"
+
+[[headers]]
   for = "/*.js"
   [headers.values]
     cache-control = "public, max-age=31536000, immutable"
+    X-Netlify-No-Transform = "true"
 
 [[headers]]
   for = "/*.css"
   [headers.values]
     cache-control = "public, max-age=31536000, immutable"
+    X-Netlify-No-Transform = "true"
+
+# Preserve styles.css specifically
+[[headers]]
+  for = "/src/styles.css"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+    X-Netlify-No-Transform = "true"
+    Content-Type = "text/css"
+
+# Function for bypassing asset optimization
+[functions]
+  directory = "netlify/functions"
