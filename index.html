@@ -78,7 +78,7 @@
     /* Force hero background to always be visible */
     .hero-background {
       display: block !important;
-      background-image: url('./src/assets/images/hero-eyeglass.png') !important;
+      /* background-image: url('./src/assets/images/hero-eyeglass.png') !important; */
       opacity: 0.25 !important;
       position: absolute !important;
       width: 100% !important;
@@ -91,7 +91,7 @@
     /* Force features background to always be visible */
     .features-background {
       display: block !important;
-      background-image: url('./src/assets/images/product-overview.gif') !important;
+      /* background-image: url('./src/assets/images/product-overview.gif') !important; */
       opacity: 0.25 !important;
       position: absolute !important;
       width: 100% !important;
@@ -155,13 +155,13 @@
       }
       
       .hero-background {
-        background-image: url('./src/assets/images/hero-eyeglass.png') !important;
+        /* background-image: url('./src/assets/images/hero-eyeglass.png') !important; */
         opacity: 0.25 !important;
         display: block !important;
       }
       
       .features-background {
-        background-image: url('./src/assets/images/product-overview.gif') !important;
+        /* background-image: url('./src/assets/images/product-overview.gif') !important; */
         opacity: 0.25 !important;
         display: block !important;
       }
@@ -242,7 +242,7 @@
         
         // Create a low-res poster that loads immediately
         const img = new Image();
-        img.src = './src/assets/images/hero-eyeglass.png';
+        // img.src = './src/assets/images/hero-eyeglass.png';
         img.onload = function() {
           // Only use the poster if video hasn't started
           if (video.paused) {
@@ -432,7 +432,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: url('./src/assets/images/hero-eyeglass.png');
+      /* background-image: url('./src/assets/images/hero-eyeglass.png'); */
       background-size: cover;
       background-position: center;
       opacity: 0.25;
@@ -564,7 +564,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: url('./src/assets/images/product-overview.gif');
+      /* background-image: url('./src/assets/images/product-overview.gif'); */
       background-size: cover;
       background-position: center;
       opacity: 0.3; /* Corrected from 100 to a valid opacity value */
@@ -1601,10 +1601,10 @@
     // Helper function to ensure assets are loaded properly on Netlify
     function ensureAssetLoading() {
       // List of critical background images that must be loaded
-      const criticalBackgrounds = [
-        './src/assets/images/hero-eyeglass.png',
-        './src/assets/images/product-overview.gif'
-      ];
+      // const criticalBackgrounds = [
+      //   './src/assets/images/hero-eyeglass.png',
+      //   './src/assets/images/product-overview.gif'
+      // ];
       
       // Preload images to ensure they're available
       criticalBackgrounds.forEach(src => {
@@ -1631,11 +1631,11 @@
         // Fix hero background if it's not visible
         const heroBackground = document.querySelector('.hero-background');
         if (heroBackground) {
-          heroBackground.style.backgroundImage = 'url("./src/assets/images/hero-eyeglass.png")';
+          // heroBackground.style.backgroundImage = 'url("./src/assets/images/hero-eyeglass.png")';
           // Alternative path if Netlify changes it
           setTimeout(() => {
             if (getComputedStyle(heroBackground).backgroundImage === 'none') {
-              heroBackground.style.backgroundImage = 'url("/src/assets/images/hero-eyeglass.png")';
+              // heroBackground.style.backgroundImage = 'url("/src/assets/images/hero-eyeglass.png")';
             }
           }, 500);
         }
@@ -1643,11 +1643,11 @@
         // Fix features background if it's not visible
         const featuresBackground = document.querySelector('.features-background');
         if (featuresBackground) {
-          featuresBackground.style.backgroundImage = 'url("./src/assets/images/product-overview.gif")';
+          // featuresBackground.style.backgroundImage = 'url("./src/assets/images/product-overview.gif")';
           // Alternative path if Netlify changes it
           setTimeout(() => {
             if (getComputedStyle(featuresBackground).backgroundImage === 'none') {
-              featuresBackground.style.backgroundImage = 'url("/src/assets/images/product-overview.gif")';
+              // featuresBackground.style.backgroundImage = 'url("/src/assets/images/product-overview.gif")';
             }
           }, 500);
         }
@@ -1791,13 +1791,13 @@
         <h1>TSonic v1.0</h1>
         <h2>Bluetooth Eyewear with Clip-On</h2>
         <p>Experience the blend of style, technology, and versatility</p>
-        <div class="hero-cta" style="display: flex; align-items: left; justify-content: left; gap: 2rem; ">
+        <div class="hero-cta">
           <a href="#order" class="btn btn-primary">Order Now</a>
-          <p class="price" style="text-align: center; margin: 0;">₹4290 <span class="original-price">₹5699</span></p>
+          <p class="price" style="margin: 0;">₹4290 <span class="original-price">₹5699</span></p>
         </div>
       </div>
       <!-- Mobile-optimized video player -->
-      <div class="hero-video-container" style="position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);">
+      <div class="hero-video-container" style="position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); aspect-ratio: 16/17;">
         <!-- Fallback poster image that will always display first -->
         <img 
           src="./src/assets/images/hero-eyeglass.png" 
@@ -1805,23 +1805,21 @@
           class="video-fallback-poster"
           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;"
         />
-        <video
-          class="hero-image"
-          id="tsonicVideo"
-          width="100%"
-          height="100%"
-          style="object-fit: cover; max-height: 500px; position: relative; z-index: 2;"
-          autoplay
-          muted
-          loop
-          playsinline
+      <video
+        class="hero-image"
+        id="tsonicVideo"
+          style="position: absolute; top: 0; left: 0; margin: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2;"
+        autoplay
+        muted
+        loop
+        playsinline
           preload="auto"
-          poster="./src/assets/images/hero-eyeglass.png"
+        poster="./src/assets/images/hero-eyeglass.png"
           data-src="./src/assets/videos/editedTSonic.mp4"
-        >
-          <source src="./src/assets/videos/editedTSonic.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+      >
+        <source src="./src/assets/videos/editedTSonic.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
         <!-- Play button overlay for mobile -->
         <div class="video-play-button" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3; background: rgba(0, 255, 179, 0.7); color: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);">
           <i class="fas fa-play" style="font-size: 24px;"></i>
@@ -1942,11 +1940,6 @@
         <span class="feature-dot" data-index="4"></span>
         <span class="feature-dot" data-index="5"></span>
       </div>
-      <div class="swipe-indicator">
-        <i class="fas fa-arrow-left"></i>
-        Swipe for more
-        <i class="fas fa-arrow-right"></i>
-      </div>
     </div>
   </section>
 
@@ -1959,7 +1952,10 @@
       </div>
       <div class="specs-content">
         <div class="specs-image">
-          <img src="./src/assets/images/product-specs.gif" alt="TSonic Specifications" style="width: 100%; height: auto; border-radius: 16px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);">
+          <video playsinline autoplay muted loop class="specs-video">
+            <source src="./src/assets/videos/product-specs-mp4.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="specs-details-container" style="position: relative;">
           <div class="specs-details">
@@ -2805,6 +2801,81 @@
             playButton.style.display = 'flex';
           }
         });
+      }
+    });
+
+    // Specs video handling
+    document.addEventListener('DOMContentLoaded', function() {
+      const specsVideo = document.querySelector('.specs-video');
+      
+      if (specsVideo) {
+        // Add error handling
+        specsVideo.addEventListener('error', function() {
+          console.warn('Specs video failed to load, applying fallback');
+          
+          // Create and insert fallback image
+          const fallbackImg = document.createElement('img');
+          fallbackImg.src = './src/assets/images/product-specs.gif';
+          fallbackImg.alt = 'TSonic Specifications';
+          fallbackImg.style.cssText = 'width: 100%; height: auto; border-radius: 16px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);';
+          
+          // Replace video with image
+          specsVideo.parentNode.replaceChild(fallbackImg, specsVideo);
+        });
+        
+        // Optimize for mobile - use Intersection Observer for lazy loading
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // Try to play the video when it comes into view
+              specsVideo.play().catch(e => {
+                console.warn('Could not autoplay specs video:', e);
+              });
+            } else {
+              // Pause when not visible to save resources
+              specsVideo.pause();
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        observer.observe(specsVideo);
+      }
+    });
+  </script>
+
+  <!-- Add script to ensure video fills container -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.getElementById('tsonicVideo');
+      
+      if (video) {
+        // Force loading
+        video.load();
+        
+        // Make sure video fills container
+        function ensureVideoFills() {
+          // Make sure aspect ratio is maintained and video fills container
+          const container = video.closest('.hero-video-container');
+          if (container) {
+            // Force aspect ratio
+            container.style.aspectRatio = '16/17';
+            
+            // Apply styles to ensure video fills container
+            video.style.position = 'absolute';
+            video.style.top = '0';
+            video.style.left = '0';
+            video.style.width = '100%';
+            video.style.height = '100%';
+            video.style.objectFit = 'cover';
+          }
+        }
+        
+        // Run immediately and on resize
+        ensureVideoFills();
+        window.addEventListener('resize', ensureVideoFills);
+        
+        // Also run when video is loaded
+        video.addEventListener('loadedmetadata', ensureVideoFills);
       }
     });
   </script>
