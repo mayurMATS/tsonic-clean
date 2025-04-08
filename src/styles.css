@@ -792,6 +792,7 @@ header {
 /* Specs Section */
 .specs {
   background: linear-gradient(135deg, var(--light-bg) 0%, var(--lighter-bg) 100%);
+  padding: 4rem 0;
 }
 
 .specs-video {
@@ -807,9 +808,9 @@ header {
 
 .specs-content {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 3rem;
+  margin-top: 2rem;
 }
 
 .specs-image, .specs-details {
@@ -824,21 +825,77 @@ header {
 }
 
 .spec-item {
-  background-color: var(--navy-blue);
+  background: rgba(19, 17, 29, 0.5);
+  border: 1px solid rgba(0, 255, 179, 0.2);
+  backdrop-filter: blur(10px);
   padding: 1.5rem;
   border-radius: var(--border-radius);
-  transition: var(--transition);
+  transition: all 0.3s ease;
 }
 
 .spec-item:hover {
   transform: translateY(-5px);
-  box-shadow: var(--box-shadow);
+  box-shadow: 0 10px 30px rgba(0, 255, 179, 0.2);
+  border: 1px solid rgba(0, 255, 179, 0.3);
 }
 
 .spec-item h4 {
-  color: var(--primary-color);
+  color: var(--light-text);
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
+  font-family: var(--heading-font);
+  font-weight: 600;
+}
+
+.spec-item p {
+  color: var(--muted-text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Mobile Styles for Specs Section */
+@media (max-width: 768px) {
+  .specs {
+    padding: 3rem 0;
+  }
+
+  .specs-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .specs-image {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .specs-video {
+    width: 100%;
+    max-height: 300px;
+    border-radius: 12px;
+  }
+
+  .specs-details {
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .spec-item {
+    padding: 1.25rem;
+    display: block;
+  }
+
+  .spec-item h4 {
+    font-size: 1rem;
+  }
+
+  .spec-item p {
+    font-size: 0.85rem;
+  }
 }
 
 /* Testimonials Section */
@@ -1280,48 +1337,6 @@ footer {
   /* Ensure mobile hero background optimization */
   .hero-background {
     opacity: 0.2;
-  }
-}
-
-/* Mobile Styles for Specs Section */
-@media (max-width: 768px) {
-  .specs {
-    padding: 3rem 0;
-  }
-
-  .specs-content {
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  .specs-image {
-    width: 90%;
-    max-width: 500px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-  }
-
-  .specs-video {
-    width: 100%;
-    max-width: 450px;
-    margin: 0 auto;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-  }
-
-  .specs-details {
-    display: none;
-  }
-
-  .specs-toggle-btn {
-    display: none;
-  }
-
-  .spec-item {
-    display: none;
   }
 }
 

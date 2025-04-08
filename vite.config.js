@@ -5,10 +5,7 @@ export default defineConfig({
   build: {
     // Preserve CSS custom properties
     cssCodeSplit: true,
-    cssMinify: false,
-    
-    // Prevent asset optimization
-    minify: false,
+    minify: true,
     
     // Preserve file names to match redirects
     rollupOptions: {
